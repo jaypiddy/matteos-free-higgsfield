@@ -43,7 +43,7 @@ export default function JustifiedRows({
   }, []);
 
   // Before the first measurement there's no sensible width to lay out against.
-  if (!width) return <div ref={ref} className="min-h-24" />;
+  if (!width) return <div ref={ref} style={{ minHeight: "6rem" }} />;
 
   const rows: RowItem[][] = [];
   let row: RowItem[] = [];
@@ -63,7 +63,7 @@ export default function JustifiedRows({
   if (row.length) rows.push(row);
 
   return (
-    <div ref={ref} className="flex flex-col" style={{ gap }}>
+    <div ref={ref} style={{ display: "flex", flexDirection: "column", gap }}>
       {rows.map((r, i) => {
         const sum = r.reduce((a, b) => a + b.ratio, 0);
         const available = width - (r.length - 1) * gap;
@@ -74,7 +74,7 @@ export default function JustifiedRows({
         const h = isLast && projected < width ? targetHeight : available / sum;
 
         return (
-          <div key={i} className="flex" style={{ gap }}>
+          <div key={i} style={{ display: "flex", gap }}>
             {r.map((item) =>
               item.render({ width: item.ratio * h, height: h, flexShrink: 0 }),
             )}

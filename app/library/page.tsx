@@ -1,13 +1,20 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Button, Column, ContentSwitcher, Dropdown, Grid, Search, Switch } from "@carbon/react";
+import { TrashCan } from "@carbon/icons-react";
 import ResultGrid from "@/components/ResultGrid";
 import { useJobs } from "@/components/useJobs";
 
+const KINDS = ["all", "image", "video"] as const;
+type Kind = (typeof KINDS)[number];
+
+const ALL_MODELS = "All models";
+
 export default function LibraryPage() {
   const { jobs, loaded, refresh } = useJobs();
-  const [kind, setKind] = useState<"all" | "image" | "video">("all");
-  const [model, setModel] = useState("all");
+  const [kind, setKind] = useState<Kind>("all");
+  const [model, setModel] = useState(ALL_MODELS);
   const [query, setQuery] = useState("");
   const [clearing, setClearing] = useState(false);
 
@@ -29,7 +36,7 @@ export default function LibraryPage() {
   }
 
   const models = useMemo(
-    () => Array.from(new Set(jobs.map((j) => j.model_name))).sort(),
+    () => [ALL_MODELS, ...Array.from(new Set(jobs.map((j) => j.model_name))).sort()],
     [jobs],
   );
 
@@ -38,83 +45,84 @@ export default function LibraryPage() {
     return jobs.filter(
       (j) =>
         (kind === "all" || j.kind === kind) &&
-        (model === "all" || j.model_name === model) &&
+        (model === ALL_MODELS || j.model_name === model) &&
         (!q || j.prompt.toLowerCase().includes(q)),
     );
   }, [jobs, kind, model, query]);
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="mx-auto w-full max-w-[1560px] px-5 pt-12 pb-20 sm:px-10">
-        {/* Title on its own line, filters on the next — the old single row ran
-            out of width the moment a model name got long. */}
-        <header className="mb-8 border-b border-edge-soft pb-7">
-          <div className="flex items-end justify-between gap-5">
+    <div className="cds-page">
+      <Grid>
+        <Column sm={4} md={8} lg={16}>
+          <header className="page-header page-header--split">
             <div>
-              <span className="tag overline text-muted">Archive</span>
-              <h1 className="mt-4 text-xl">Library</h1>
+              <p className="page-overline">Archive</p>
+              <h1 className="page-title">Library</h1>
             </div>
-            <p className="shrink-0 pb-2 text-sm text-faint">
-              <span className="figure text-lg text-text">{filtered.length}</span> shown
+            <p className="page-count">
+              <span className="page-count__figure">{filtered.length}</span> shown
             </p>
-          </div>
+          </header>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search prompts…"
-              className="w-64 rounded-full border border-edge bg-white/85 px-5 py-3 text-sm backdrop-blur transition-colors duration-200 outline-none placeholder:text-faint focus:border-accent"
-            />
-
-            <div className="flex gap-1.5 rounded-full border border-edge-soft bg-white/85 p-1.5 backdrop-blur">
-              {(["all", "image", "video"] as const).map((k) => (
-                <button
-                  key={k}
-                  onClick={() => setKind(k)}
-                  className={`press rounded-full px-4 py-2 text-sm font-bold capitalize ${
-                    kind === k
-                      ? "brand-gradient sheen text-accent-ink shadow-[var(--shade-accent)]"
-                      : "text-muted hover:bg-accent-soft hover:text-accent"
-                  }`}
-                >
-                  {k}
-                </button>
-              ))}
+          {/* Title on its own line, filters on the next — a single row ran out
+              of width the moment a model name got long. */}
+          <div className="toolbar">
+            <div className="toolbar__search">
+              <Search
+                labelText="Search prompts"
+                placeholder="Search prompts"
+                size="md"
+                value={query}
+                onChange={(e) => setQuery(typeof e === "string" ? e : e.target.value)}
+              />
             </div>
 
-            <select
-              value={model}
-              onChange={(e) => setModel(e.target.value)}
-              className="rounded-full border border-edge bg-white/85 px-4 py-3 text-sm text-muted backdrop-blur transition-colors duration-200 outline-none hover:border-accent focus:border-accent"
+            <ContentSwitcher
+              size="md"
+              selectedIndex={KINDS.indexOf(kind)}
+              onChange={({ index }) => setKind(KINDS[index ?? 0])}
+              className="toolbar__kind"
             >
-              <option value="all">All models</option>
-              {models.map((m) => (
-                <option key={m} value={m}>
-                  {m}
-                </option>
-              ))}
-            </select>
+              <Switch name="all" text="All" />
+              <Switch name="image" text="Image" />
+              <Switch name="video" text="Video" />
+            </ContentSwitcher>
+
+            <div className="toolbar__model">
+              <Dropdown
+                id="library-model"
+                titleText="Model"
+                hideLabel
+                label={ALL_MODELS}
+                size="md"
+                items={models}
+                selectedItem={model}
+                onChange={({ selectedItem }) => setModel(selectedItem ?? ALL_MODELS)}
+              />
+            </div>
 
             {failedCount > 0 && (
-              <button
+              <Button
+                kind="danger--tertiary"
+                size="md"
+                renderIcon={TrashCan}
                 onClick={clearFailed}
                 disabled={clearing}
-                className="press ml-auto shrink-0 rounded-full border border-danger/40 bg-white/70 px-5 py-3 text-sm font-bold text-danger hover:border-danger hover:bg-danger/5 disabled:opacity-50"
+                className="toolbar__end"
               >
                 {clearing ? "Clearing…" : `Clear ${failedCount} failed`}
-              </button>
+              </Button>
             )}
           </div>
-        </header>
 
-        <ResultGrid
-          jobs={filtered}
-          loaded={loaded}
-          onChanged={refresh}
-          emptyHint="Everything you generate is saved here, including a local copy of the file."
-        />
-      </div>
+          <ResultGrid
+            jobs={filtered}
+            loaded={loaded}
+            onChanged={refresh}
+            emptyHint="Everything you generate is saved here, including a local copy of the file."
+          />
+        </Column>
+      </Grid>
     </div>
   );
 }

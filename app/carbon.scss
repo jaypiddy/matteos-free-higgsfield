@@ -139,3 +139,519 @@ body {
   padding-block-start: spacing.$spacing-07;
   border-block-start: 1px solid var(--cds-border-subtle-01);
 }
+
+// Until globals.css is gone: its h1–h3 rule forces the old serif display face.
+h1,
+h2,
+h3 {
+  font-family: inherit;
+  letter-spacing: inherit;
+}
+
+// Carbon's productive easing, for the few transitions this app adds.
+$ease: cubic-bezier(0.2, 0, 0.38, 0.9);
+
+.fill {
+  width: 100%;
+  height: 100%;
+}
+
+// ------------------------------------------------------------ page chrome
+
+.page-header--split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: spacing.$spacing-05;
+}
+
+.page-tagline,
+.page-count {
+  @include type.type-style('body-compact-01');
+  color: var(--cds-text-secondary);
+}
+
+.page-count__figure {
+  @include type.type-style('heading-03');
+  color: var(--cds-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: spacing.$spacing-05;
+  margin-block-end: spacing.$spacing-07;
+}
+
+.toolbar__search {
+  flex: 1 1 16rem;
+  max-width: 24rem;
+}
+
+.toolbar__kind {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 16rem;
+}
+
+.toolbar__model {
+  flex: 0 1 14rem;
+  min-width: 12rem;
+}
+
+.toolbar__end {
+  margin-inline-start: auto;
+}
+
+// ------------------------------------------------------------ empty state
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 46vh;
+  padding: spacing.$spacing-07;
+  text-align: center;
+}
+
+.empty-state__icon {
+  fill: var(--cds-icon-secondary);
+  margin-block-end: spacing.$spacing-06;
+}
+
+.empty-state__title {
+  @include type.type-style('heading-03');
+}
+
+.empty-state__body {
+  @include type.type-style('body-01');
+  max-width: 28rem;
+  margin-block-start: spacing.$spacing-03;
+  color: var(--cds-text-secondary);
+}
+
+// ------------------------------------------------------------ result tiles
+
+.result-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--cds-layer-01);
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition: outline-color 110ms $ease;
+
+  &:hover {
+    outline-color: var(--cds-border-strong-01);
+  }
+
+  &:focus-visible,
+  &:has(.result-tile__open:focus-visible) {
+    outline: 2px solid var(--cds-focus);
+    outline-offset: -2px;
+  }
+}
+
+.result-tile__placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.result-tile__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 240ms $ease;
+
+  &[data-ready='true'],
+  &[data-ready=''] {
+    opacity: 1;
+  }
+}
+
+.result-tile__open {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.result-tile__actions {
+  position: absolute;
+  inset-block-start: spacing.$spacing-03;
+  inset-inline-end: spacing.$spacing-03;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-02;
+  opacity: 0;
+  transition: opacity 110ms $ease;
+
+  .cds--tag {
+    margin: 0;
+  }
+}
+
+.result-tile__caption {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-02;
+  padding: spacing.$spacing-09 spacing.$spacing-05 spacing.$spacing-05;
+  // Fixed ink over imagery, independent of theme.
+  background: linear-gradient(to top, rgb(0 0 0 / 0.85), rgb(0 0 0 / 0.55) 55%, transparent);
+  color: #f4f4f4;
+  pointer-events: none;
+  transform: translateY(100%);
+  transition: transform 240ms $ease;
+}
+
+.result-tile__prompt {
+  @include type.type-style('body-compact-01');
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.result-tile__meta {
+  @include type.type-style('helper-text-01');
+  color: #c6c6c6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-tile__stamp {
+  @include type.type-style('label-01');
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  padding: spacing.$spacing-07 spacing.$spacing-03 spacing.$spacing-02;
+  background: linear-gradient(to top, rgb(0 0 0 / 0.75), transparent);
+  color: #f4f4f4;
+}
+
+.result-tile:hover,
+.result-tile:focus-within {
+  .result-tile__actions {
+    opacity: 1;
+  }
+
+  .result-tile__caption {
+    transform: none;
+  }
+}
+
+@media (hover: none) {
+  .result-tile__actions {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-tile,
+  .result-tile__media,
+  .result-tile__actions,
+  .result-tile__caption {
+    transition: none;
+  }
+}
+
+// In-flight, empty or failed jobs.
+.status-tile {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-03;
+  padding: spacing.$spacing-05;
+  overflow: hidden;
+  background: var(--cds-layer-01);
+  border: 1px solid var(--cds-border-subtle-01);
+}
+
+.status-tile--bad {
+  border-color: var(--cds-support-error);
+}
+
+.status-tile__top {
+  min-height: 2rem;
+
+  .cds--tag {
+    margin: 0;
+  }
+}
+
+.status-tile__text {
+  @include type.type-style('body-compact-01');
+  flex: 1;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  color: var(--cds-text-secondary);
+}
+
+.status-tile__footer {
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-03;
+}
+
+.status-tile__model {
+  @include type.type-style('helper-text-01');
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--cds-text-helper);
+}
+
+// ------------------------------------------------------------ viewer modal
+
+.viewer .cds--modal-container {
+  max-height: 92vh;
+}
+
+.viewer__body.cds--modal-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: spacing.$spacing-06;
+  margin-block-end: spacing.$spacing-06;
+  padding-inline-end: spacing.$spacing-05;
+
+  @media (min-width: 66rem) {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+  }
+}
+
+.viewer__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12rem;
+  background: var(--cds-layer-02);
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+  }
+}
+
+.viewer__details {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-06;
+}
+
+.viewer__heading {
+  @include type.type-style('label-01');
+  color: var(--cds-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.32px;
+}
+
+.viewer__prompt {
+  @include type.type-style('body-01');
+  margin-block-start: spacing.$spacing-03;
+}
+
+.viewer__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacing.$spacing-02;
+
+  .cds--tag {
+    margin: 0;
+  }
+}
+
+.viewer__settings {
+  margin-block-start: spacing.$spacing-03;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    gap: spacing.$spacing-05;
+    padding-block: spacing.$spacing-03;
+    border-block-end: 1px solid var(--cds-border-subtle-02);
+  }
+
+  dt {
+    @include type.type-style('body-compact-01');
+    color: var(--cds-text-secondary);
+    text-transform: capitalize;
+  }
+
+  dd {
+    @include type.type-style('code-01');
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: end;
+  }
+}
+
+.viewer__actions {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-03;
+  margin-block-start: auto;
+
+  .cds--btn {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.viewer__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.viewer__position {
+  @include type.type-style('code-02');
+  color: var(--cds-text-secondary);
+}
+
+// ------------------------------------------------------------ home
+
+.home-notice {
+  max-width: none;
+  margin-block-end: spacing.$spacing-07;
+}
+
+.home-starts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: spacing.$spacing-05;
+}
+
+.start-tile {
+  min-height: 10rem;
+}
+
+.start-tile__title {
+  @include type.type-style('heading-03');
+  margin-block-start: spacing.$spacing-03;
+  color: var(--cds-text-primary);
+}
+
+.start-tile__body {
+  @include type.type-style('body-01');
+  margin-block-start: spacing.$spacing-03;
+  padding-inline-end: spacing.$spacing-07;
+  color: var(--cds-text-secondary);
+}
+
+.start-tile__mono {
+  @include type.type-style('code-01');
+  margin-block-start: spacing.$spacing-02;
+  color: var(--cds-text-secondary);
+}
+
+.home-section {
+  margin-block-start: spacing.$spacing-09;
+}
+
+.home-section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: spacing.$spacing-05;
+  margin-block-end: spacing.$spacing-05;
+  padding-block-end: spacing.$spacing-03;
+  border-block-end: 1px solid var(--cds-border-subtle-01);
+}
+
+.home-empty {
+  @include type.type-style('body-01');
+  padding-block: spacing.$spacing-10;
+  text-align: center;
+  color: var(--cds-text-secondary);
+}
+
+.home-rail {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-05;
+  margin-block-start: spacing.$spacing-09;
+
+  @media (min-width: 66rem) {
+    position: sticky;
+    inset-block-start: 0;
+    margin-block-start: 0;
+  }
+}
+
+.ledger__title {
+  @include type.type-style('heading-02');
+  margin-block-end: spacing.$spacing-03;
+}
+
+.ledger__row {
+  padding-block: spacing.$spacing-04;
+  border-block-start: 1px solid var(--cds-border-subtle-01);
+
+  dt {
+    @include type.type-style('label-01');
+    display: flex;
+    justify-content: space-between;
+    gap: spacing.$spacing-03;
+    color: var(--cds-text-secondary);
+  }
+
+  dd {
+    @include type.type-style('heading-04');
+    margin-block-start: spacing.$spacing-02;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+}
+
+.ledger__row--lead dd {
+  @include type.type-style('heading-05');
+}
+
+.running {
+  li {
+    padding-block: spacing.$spacing-04;
+    border-block-start: 1px solid var(--cds-border-subtle-01);
+  }
+}
+
+.running__prompt {
+  @include type.type-style('body-compact-01');
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.running__model {
+  @include type.type-style('helper-text-01');
+  margin-block-start: spacing.$spacing-02;
+  color: var(--cds-text-helper);
+}
