@@ -1,18 +1,16 @@
 // IBM Carbon, g100 (dark) theme.
 //
-// Fonts: Carbon's own @font-face loading is off. It would pull every Plex
-// family, weight and script, and its package path doesn't resolve under
-// Turbopack. Instead layout.tsx loads Plex Sans and Mono through next/font —
-// self-hosted at build time, only the weights Carbon's type scale uses — and
-// Carbon's families are pointed at those variables.
+// Fonts: Carbon's own IBM Plex @font-face loading is off. Everything is set in
+// BD Terminal VF, loaded from the Adobe Fonts kit in layout.tsx, for both
+// Carbon's sans and mono roles.
 @use 'sass:string';
 @use '@carbon/react/scss/config' with (
   $css--font-face: false
 );
 @use '@carbon/react/scss/type' with (
   $font-families: (
-    'sans': string.unquote("var(--font-plex-sans), 'IBM Plex Sans', system-ui, sans-serif"),
-    'mono': string.unquote("var(--font-plex-mono), 'IBM Plex Mono', ui-monospace, monospace"),
+    'sans': string.unquote("'bd-terminal-vf', ui-monospace, 'SF Mono', Menlo, monospace"),
+    'mono': string.unquote("'bd-terminal-vf', ui-monospace, 'SF Mono', Menlo, monospace"),
   )
 );
 @use '@carbon/react/scss/themes';
@@ -33,6 +31,10 @@
 body {
   background: var(--cds-background);
   color: var(--cds-text-primary);
+  // globals.css still sets the old body face and weight; Carbon's type tokens
+  // are the source of truth now.
+  font-family: type.font-family('sans');
+  font-weight: 400;
 }
 
 // Carbon's UI Shell header is fixed at the top, 3rem tall. The app scrolls each
