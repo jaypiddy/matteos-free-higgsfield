@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useJobs } from "@/components/useJobs";
 import JustifiedRows from "@/components/JustifiedRows";
 import { aspectValue, formatBytes, formatUsd, isActive, mediaUrl, timeAgo } from "@/lib/shared";
-import { AFFILIATE, BRAND } from "@/lib/brand";
+import { CONSOLE, BRAND } from "@/lib/brand";
 import { LogoTile } from "@/components/Logo";
 
 interface Stats {
@@ -182,7 +182,7 @@ export default function HomePage() {
             </section>
 
             <a
-              href={AFFILIATE.href}
+              href={CONSOLE.href}
               target="_blank"
               rel="noopener noreferrer"
               className="press group flex items-center gap-4 rounded-2xl border border-edge-soft bg-white/85 px-5 py-5 text-left shadow-[var(--shade-sm)] backdrop-blur-xl hover:border-accent-line hover:bg-accent-soft"
@@ -190,13 +190,13 @@ export default function HomePage() {
               <LogoTile className="size-11" />
               <span className="min-w-0">
                 <span className="display block text-base font-bold text-text">
-                  {AFFILIATE.label}
+                  {CONSOLE.label}
                   <span className="ml-2 inline-block text-accent transition-transform duration-200 group-hover:translate-x-1">
                     &rarr;
                   </span>
                 </span>
                 <span className="mt-1 block truncate font-mono text-xs text-muted">
-                  {AFFILIATE.display}
+                  {CONSOLE.display}
                 </span>
               </span>
             </a>

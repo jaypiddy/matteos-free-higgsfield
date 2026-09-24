@@ -1,0 +1,141 @@
+// IBM Carbon, g100 (dark) theme.
+//
+// Fonts: Carbon's own @font-face loading is off. It would pull every Plex
+// family, weight and script, and its package path doesn't resolve under
+// Turbopack. Instead layout.tsx loads Plex Sans and Mono through next/font —
+// self-hosted at build time, only the weights Carbon's type scale uses — and
+// Carbon's families are pointed at those variables.
+@use 'sass:string';
+@use '@carbon/react/scss/config' with (
+  $css--font-face: false
+);
+@use '@carbon/react/scss/type' with (
+  $font-families: (
+    'sans': string.unquote("var(--font-plex-sans), 'IBM Plex Sans', system-ui, sans-serif"),
+    'mono': string.unquote("var(--font-plex-mono), 'IBM Plex Mono', ui-monospace, monospace"),
+  )
+);
+@use '@carbon/react/scss/themes';
+@use '@carbon/react/scss/theme' with (
+  $theme: themes.$g100
+);
+@use '@carbon/react';
+@use '@carbon/react/scss/spacing';
+
+// Configuring the theme above only selects its values; this is what actually
+// writes them out as --cds-* custom properties. Without it every token is empty
+// and components fall back to whatever was compiled in.
+:root {
+  @include theme.theme();
+}
+
+// Replaces the old pastel gradient wash from globals.css.
+body {
+  background: var(--cds-background);
+  color: var(--cds-text-primary);
+}
+
+// Carbon's UI Shell header is fixed at the top, 3rem tall. The app scrolls each
+// page's own column beneath it rather than the document.
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  padding-top: 3rem;
+  overflow: hidden;
+  background: var(--cds-background);
+  color: var(--cds-text-primary);
+}
+
+.app-main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+// A page already converted to Carbon: one scrolling column on the grid.
+.cds-page {
+  height: 100%;
+  overflow-y: auto;
+  padding-block: spacing.$spacing-07 spacing.$spacing-12;
+}
+
+// ------------------------------------------------------------ page primitives
+
+// No rule under the header: the first section's top rule does that job.
+.page-header {
+  margin-block-end: spacing.$spacing-05;
+}
+
+.page-overline {
+  @include type.type-style('label-01');
+  color: var(--cds-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.32px;
+}
+
+.page-title {
+  @include type.type-style('fluid-heading-05', true);
+  margin-block-start: spacing.$spacing-03;
+}
+
+// Settings-style form: intro column beside the controls, a rule between.
+.section-intro,
+.section-body {
+  padding-block: spacing.$spacing-07;
+}
+
+.section-intro {
+  border-block-start: 1px solid var(--cds-border-subtle-01);
+}
+
+.section-body {
+  > * {
+    max-width: 40rem;
+  }
+
+  @media (min-width: 66rem) {
+    border-block-start: 1px solid var(--cds-border-subtle-01);
+  }
+}
+
+.section-title {
+  @include type.type-style('heading-03');
+}
+
+.section-note {
+  @include type.type-style('body-01');
+  margin-block-start: spacing.$spacing-03;
+  color: var(--cds-text-secondary);
+
+  code {
+    @include type.type-style('code-01');
+  }
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1px;
+}
+
+.stat-label {
+  @include type.type-style('label-01');
+  color: var(--cds-text-secondary);
+}
+
+.stat-value {
+  @include type.type-style('heading-04');
+  margin-block-start: spacing.$spacing-03;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-05;
+  padding-block-start: spacing.$spacing-07;
+  border-block-start: 1px solid var(--cds-border-subtle-01);
+}

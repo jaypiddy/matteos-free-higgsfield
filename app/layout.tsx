@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import TopNav from "@/components/TopNav";
+// After globals.css so Carbon's reset and tokens win wherever the two overlap.
+// globals.css and the two fonts below go once the remaining pages are on Carbon.
+import "./carbon.scss";
+import AppHeader from "@/components/AppHeader";
 import { BRAND } from "@/lib/brand";
 
 /**
@@ -24,6 +27,22 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+/** Carbon's typefaces. carbon.scss points Carbon's sans and mono families at
+ *  these variables; 300/400/600 are the only weights its type scale uses. */
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  weight: ["400", "600"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: BRAND.name,
   description: `${BRAND.name} — ${BRAND.tagline}`,
@@ -37,15 +56,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${jakarta.variable} h-full antialiased`}
+      className={`${plexSans.variable} ${plexMono.variable} ${playfair.variable} ${jakarta.variable} h-full`}
     >
-      {/* The gradient wash lives on <body> and is fixed, so it stays put while
-          each page scrolls its own column over the top of it. Nothing here
-          paints an opaque background over it — that is the cards' job. */}
-      <body className="min-h-full text-text">
-        <div className="flex h-dvh flex-col overflow-hidden">
-          <TopNav />
-          <main className="relative min-h-0 flex-1 overflow-hidden">{children}</main>
+      <body>
+        <AppHeader />
+        <div className="app-shell">
+          <main id="main-content" className="app-main">
+            {children}
+          </main>
         </div>
       </body>
     </html>

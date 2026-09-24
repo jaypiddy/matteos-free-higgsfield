@@ -1,8 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AFFILIATE } from "@/lib/brand";
+import {
+  Button,
+  Column,
+  Grid,
+  InlineLoading,
+  InlineNotification,
+  Link,
+  NumberInput,
+  PasswordInput,
+  Stack,
+  TextInput,
+  Tile,
+} from "@carbon/react";
+import { Save } from "@carbon/icons-react";
+import { CONSOLE } from "@/lib/brand";
 import { formatBytes, formatUsd } from "@/lib/shared";
+
+type SaveState = "idle" | "saving" | "saved" | "error";
 
 export default function SettingsPage() {
   const [keyId, setKeyId] = useState("");
@@ -11,7 +27,8 @@ export default function SettingsPage() {
   const [source, setSource] = useState<string | null>(null);
   const [maxConcurrent, setMaxConcurrent] = useState(4);
   const [spendCap, setSpendCap] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [splitNotice, setSplitNotice] = useState(false);
   const [stats, setStats] = useState<{ diskBytes: number; outputs: number; allTime: { usd: number } } | null>(null);
 
   useEffect(() => {
@@ -29,134 +46,159 @@ export default function SettingsPage() {
     })();
   }, []);
 
-  async function save() {
-    await fetch("/api/settings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ keyId, keySecret, maxConcurrent, spendCap }),
-    });
-    if (keySecret.trim()) {
-      setHasSecret(true);
-      setSource("database");
+  /**
+   * The Higgsfield console now hands out a single "API key" that is really
+   * `KEY_ID:KEY_SECRET`. Pasting that whole string into Key ID splits it into
+   * both fields, so nobody has to cut it in half by hand.
+   */
+  function onKeyIdChange(value: string) {
+    const colon = value.indexOf(":");
+    if (colon > 0 && colon < value.length - 1) {
+      setKeyId(value.slice(0, colon).trim());
+      setKeySecret(value.slice(colon + 1).trim());
+      setSplitNotice(true);
+      return;
     }
-    setKeySecret("");
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2200);
+    setKeyId(value);
+  }
+
+  async function save() {
+    setSaveState("saving");
+    try {
+      const res = await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyId, keySecret, maxConcurrent, spendCap }),
+      });
+      if (!res.ok) throw new Error(`${res.status}`);
+      if (keySecret.trim()) {
+        setHasSecret(true);
+        setSource("database");
+      }
+      setKeySecret("");
+      setSplitNotice(false);
+      setSaveState("saved");
+      setTimeout(() => setSaveState("idle"), 2200);
+    } catch {
+      setSaveState("error");
+    }
   }
 
   return (
-    <div className="h-full overflow-y-auto">
-      {/* Each section is titled in a left-hand column with the controls beside
-          it, so the page reads as a form rather than a stack of cards. */}
-      <div className="mx-auto w-full max-w-4xl px-5 pt-12 pb-20 sm:px-10">
-        <header className="mb-10 border-b border-edge-soft pb-7">
-          <span className="tag overline text-muted">Configuration</span>
-          <h1 className="mt-4 text-xl">Settings</h1>
-        </header>
+    <div className="cds-page">
+      <Grid>
+        <Column sm={4} md={8} lg={16}>
+          <header className="page-header">
+            <p className="page-overline">Configuration</p>
+            <h1 className="page-title">Settings</h1>
+          </header>
+        </Column>
 
-        <div className="divide-y divide-edge-soft">
-          <Section
-            title="Higgsfield API key"
-            note={
-              <>
-                A key has two parts. Create one in the{" "}
-                <a
-                  href={AFFILIATE.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-accent underline decoration-dotted underline-offset-4 transition-colors hover:text-accent-dim"
-                >
-                  Higgsfield Console
-                </a>
-                , then paste both here. They are stored in this machine&apos;s local database,
-                and the secret is never sent to the browser.
-              </>
-            }
-          >
-            {source === "environment" && (
-              <p className="rounded-2xl border border-accent-line bg-accent-soft/80 px-5 py-4 text-sm leading-relaxed text-text-2">
-                A key is already loaded from <code className="font-mono text-text">.env.local</code>,
-                so there is nothing to do here. Entering one below overrides it for this machine.
-              </p>
-            )}
+        <Section
+          title="Higgsfield API key"
+          note={
+            <>
+              Create a key in the{" "}
+              <Link href={CONSOLE.href} target="_blank" rel="noopener noreferrer" inline>
+                Higgsfield Console
+              </Link>{" "}
+              and paste it into Key ID — a combined <code>id:secret</code> key is split
+              automatically. Both parts are stored in this machine&apos;s local database, and the
+              secret is never sent to the browser.
+            </>
+          }
+        >
+          {source === "environment" && (
+            <InlineNotification
+              kind="info"
+              lowContrast
+              hideCloseButton
+              title="Key loaded from .env.local"
+              subtitle="There is nothing to do here. Entering a key below overrides it for this machine."
+            />
+          )}
+          {splitNotice && (
+            <InlineNotification
+              kind="success"
+              lowContrast
+              onClose={() => setSplitNotice(false)}
+              title="Key split into ID and secret"
+              subtitle="Save to store both."
+            />
+          )}
 
-            <Field label="Key ID">
-              <input
-                value={keyId}
-                onChange={(e) => setKeyId(e.target.value)}
-                placeholder="00000000-0000-0000-0000-000000000000"
-                className="w-full rounded-full border border-edge bg-white/85 px-5 py-3.5 font-mono text-sm backdrop-blur transition-colors duration-200 outline-none hover:border-accent-line focus:border-accent"
-              />
-            </Field>
+          <TextInput
+            id="key-id"
+            labelText="Key ID"
+            value={keyId}
+            onChange={(e) => onKeyIdChange(e.target.value)}
+            placeholder="00000000-0000-0000-0000-000000000000"
+            autoComplete="off"
+            spellCheck={false}
+          />
 
-            <Field label="Key secret">
-              <input
-                type="password"
-                value={keySecret}
-                onChange={(e) => setKeySecret(e.target.value)}
-                placeholder={hasSecret ? "•••••••• (saved — leave blank to keep)" : "64-character secret"}
-                className="w-full rounded-full border border-edge bg-white/85 px-5 py-3.5 font-mono text-sm backdrop-blur transition-colors duration-200 outline-none hover:border-accent-line focus:border-accent"
-              />
-            </Field>
-          </Section>
+          <PasswordInput
+            id="key-secret"
+            labelText="Key secret"
+            value={keySecret}
+            onChange={(e) => setKeySecret(e.target.value)}
+            placeholder={hasSecret ? "Saved — leave blank to keep" : "Key secret"}
+            helperText={hasSecret ? "A secret is saved. Leave this blank to keep it." : undefined}
+            autoComplete="off"
+          />
+        </Section>
 
-          <Section title="Limits">
-            <Field
-              label="Concurrent requests"
-              hint="Higgsfield rejects requests beyond your account's limit — 4 by default. Extra jobs queue locally instead of failing."
-            >
-              <input
-                type="number"
-                min={1}
-                max={16}
-                value={maxConcurrent}
-                onChange={(e) => setMaxConcurrent(Number(e.target.value))}
-                className="w-32 rounded-full border border-edge bg-white/85 px-5 py-3.5 text-sm backdrop-blur transition-colors duration-200 outline-none hover:border-accent-line focus:border-accent"
-              />
-            </Field>
+        <Section title="Limits">
+          <NumberInput
+            id="max-concurrent"
+            label="Concurrent requests"
+            helperText="Higgsfield rejects requests beyond your account's limit — 4 by default. Extra jobs queue locally instead of failing."
+            min={1}
+            max={16}
+            value={maxConcurrent}
+            onChange={(_e, { value }) => setMaxConcurrent(Number(value) || 1)}
+          />
 
-            <Field
-              label="Spend cap (USD per 30 days)"
-              hint="Blocks new generations once estimated spend passes this. Leave empty for no cap."
-            >
-              <input
-                type="number"
-                min={0}
-                step="0.01"
-                value={spendCap}
-                onChange={(e) => setSpendCap(e.target.value)}
-                placeholder="no cap"
-                className="w-44 rounded-full border border-edge bg-white/85 px-5 py-3.5 text-sm backdrop-blur transition-colors duration-200 outline-none hover:border-accent-line focus:border-accent"
-              />
-            </Field>
-          </Section>
+          <NumberInput
+            id="spend-cap"
+            label="Spend cap (USD per 30 days)"
+            helperText="Blocks new generations once estimated spend passes this. Leave empty for no cap."
+            min={0}
+            step={1}
+            allowEmpty
+            placeholder="No cap"
+            value={spendCap === "" ? "" : Number(spendCap)}
+            onChange={(_e, { value }) => setSpendCap(value === "" || value === undefined ? "" : String(value))}
+          />
+        </Section>
 
-          <Section
-            title="Storage"
-            note="Higgsfield deletes generated files after about seven days, so every output is downloaded to storage/media in this project and served from there."
-          >
-            <dl className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-edge-soft bg-edge-soft sm:grid-cols-3">
-              <Figure label="Files" value={String(stats?.outputs ?? 0)} />
-              <Figure label="On disk" value={formatBytes(stats?.diskBytes ?? 0)} />
-              <Figure label="Spent all time" value={formatUsd(stats?.allTime.usd ?? 0)} />
-            </dl>
-          </Section>
-        </div>
+        <Section
+          title="Storage"
+          note="Higgsfield deletes generated files after about seven days, so every output is downloaded to storage/media in this project and served from there."
+        >
+          <div className="stat-row">
+            <Stat label="Files" value={String(stats?.outputs ?? 0)} />
+            <Stat label="On disk" value={formatBytes(stats?.diskBytes ?? 0)} />
+            <Stat label="Spent all time" value={formatUsd(stats?.allTime.usd ?? 0)} />
+          </div>
+        </Section>
 
-        <div className="mt-10 flex items-center gap-4 border-t border-edge-soft pt-8">
-          <button
-            onClick={save}
-            className="press brand-gradient sheen rounded-full px-10 py-4 text-sm font-extrabold tracking-wide text-accent-ink uppercase shadow-[var(--shade-accent)] hover:shadow-[var(--shade-accent-hover)]"
-          >
-            Save
-          </button>
-          {saved && <span className="fade-in text-sm font-bold text-accent-2">Saved</span>}
-        </div>
-      </div>
+        <Column sm={4} md={8} lg={{ span: 12, offset: 4 }}>
+          <div className="page-actions">
+            <Button renderIcon={Save} onClick={save} disabled={saveState === "saving"}>
+              Save
+            </Button>
+            {saveState === "saving" && <InlineLoading description="Saving…" />}
+            {saveState === "saved" && <InlineLoading status="finished" description="Saved" />}
+            {saveState === "error" && <InlineLoading status="error" description="Could not save" />}
+          </div>
+        </Column>
+      </Grid>
     </div>
   );
 }
 
+/** A form section: title and note on the left four columns, controls beside. */
 function Section({
   title,
   note,
@@ -167,39 +209,25 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="grid gap-6 py-10 first:pt-0 sm:grid-cols-[15rem_1fr] sm:gap-10">
-      <div>
-        <h2 className="display text-lg font-bold">{title}</h2>
-        {note && <p className="mt-2.5 text-sm leading-relaxed text-muted">{note}</p>}
-      </div>
-      <div className="min-w-0 space-y-6">{children}</div>
-    </section>
+    <>
+      <Column sm={4} md={8} lg={4} className="section-intro">
+        <h2 className="section-title">{title}</h2>
+        {note && <p className="section-note">{note}</p>}
+      </Column>
+      {/* 4 + 12 fills the 16-column row, so the next section starts on its own
+          line; .section-body caps the controls' width instead. */}
+      <Column sm={4} md={8} lg={12} className="section-body">
+        <Stack gap={6}>{children}</Stack>
+      </Column>
+    </>
   );
 }
 
-function Figure({ label, value }: { label: string; value: string }) {
+function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-white/85 px-5 py-5 backdrop-blur">
-      <dt className="overline text-faint">{label}</dt>
-      <dd className="figure mt-2 break-all text-lg text-text">{value}</dd>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  hint,
-  children,
-}: {
-  label: string;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="overline mb-2.5 block text-faint">{label}</span>
-      {children}
-      {hint && <span className="mt-2.5 block text-xs leading-relaxed text-muted">{hint}</span>}
-    </label>
+    <Tile className="stat">
+      <p className="stat-label">{label}</p>
+      <p className="stat-value">{value}</p>
+    </Tile>
   );
 }
