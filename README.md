@@ -8,8 +8,9 @@ API key instead of a subscription.
 
 ## Setup
 
-You need **Node.js 20 or newer**. Check with `node -v`; if it's older, get the current
-release from <https://nodejs.org>.
+You need **Node.js 24** (or 22.13+). Check with `node -v`; if it's older, get the current
+release from <https://nodejs.org> or `brew install node`. Node 22.12 and earlier crash with a
+segmentation fault as soon as the SQLite module opens the database.
 
 ```bash
 npm install
@@ -42,6 +43,109 @@ if you're changing code — it recompiles on every edit and is slower to load.
 The first `npm install` compiles a native SQLite module, so it takes a minute and needs a
 working C++ toolchain. On macOS that means Xcode Command Line Tools
 (`xcode-select --install`); most Linux distros need `build-essential`.
+
+## Save it to the Dock (macOS)
+
+The app runs as a local web server, so a Dock icon is two pieces: keep the server running in
+the background, then save the page as a standalone app window. You don't need a terminal open
+once this is set up.
+
+### 1. Keep the server running (LaunchAgent)
+
+A LaunchAgent starts the server when you log in and restarts it if it ever stops. Build the
+app first (`npm install && npm run build`), then create
+`~/Library/LaunchAgents/com.higgsinator.studio.plist`. Replace both `/path/to/this/repo`
+lines with the folder this README is in, and `/opt/homebrew/bin/node` with the output of
+`which node` if yours differs (it must be Node 24 — see [Setup](#setup)):
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.higgsinator.studio</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/node</string>
+    <string>node_modules/next/dist/bin/next</string>
+    <string>start</string>
+    <string>-H</string>
+    <string>127.0.0.1</string>
+    <string>-p</string>
+    <string>3000</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/path/to/this/repo</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>NODE_ENV</key>
+    <string>production</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+  <key>StandardOutPath</key>
+  <string>/tmp/higgsinator.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/higgsinator.log</string>
+</dict>
+</plist>
+```
+
+`WorkingDirectory` matters: the database and downloaded media live in `storage/` relative to
+it. `-H 127.0.0.1` keeps the server reachable from this Mac only — the app has no login, so
+don't expose it to your network.
+
+Load it:
+
+```bash
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.higgsinator.studio.plist
+```
+
+Check <http://127.0.0.1:3000> opens. Useful afterwards:
+
+| To | Run |
+|---|---|
+| Restart after pulling changes and running `npm run build` | `launchctl kickstart -k gui/$(id -u)/com.higgsinator.studio` |
+| Stop it until next login | `launchctl bootout gui/$(id -u)/com.higgsinator.studio` |
+| Remove it for good | stop it, then delete the `.plist` |
+| See why it isn't working | `tail -50 /tmp/higgsinator.log` |
+
+While the agent is running, don't also run `npm start` — both want port 3000, and the second
+one fails with `EADDRINUSE`.
+
+### 2. Add it to the Dock (Safari)
+
+Needs macOS Sonoma (14) or later.
+
+1. Open <http://127.0.0.1:3000> in **Safari**.
+2. Choose **File → Add to Dock…** (or the Share button → **Add to Dock**).
+3. Keep or change the name and icon, then click **Add**.
+
+You now have a standalone app: its own Dock icon, window and Cmd-Tab entry, with no tabs or
+address bar. It's saved in `~/Applications`, so you can also open it from Spotlight or
+Launchpad. To remove it, drag it out of the Dock and delete it from `~/Applications`.
+
+**Using Chrome instead:** open <http://127.0.0.1:3000>, then **⋮ → Cast, save, and share →
+Install page as app…**. Chrome puts it in `~/Applications/Chrome Apps`; drag it to the Dock
+from there.
+
+### If the Dock app shows a blank page or "can't connect"
+
+The window is only a view onto the server, so this almost always means the server isn't
+running. Check the log (`tail -50 /tmp/higgsinator.log`), fix what it reports — usually the
+wrong Node version or a missing `npm run build` — then restart the agent with the
+`kickstart` command above.
+
+If a video won't play in the Safari app but plays in Chrome, reload with **Cmd-R**; if that
+doesn't help, quit and reopen the app. Media is cached aggressively, so Safari can hold on to
+an old response.
 
 ## The model registry
 
