@@ -67,6 +67,9 @@
   --cds-layer-accent-03: #442212;
   --cds-layer-accent-hover-01: #3a1f12;
   --cds-layer-accent-active-01: #442212;
+  // The selected segment of a content switcher: inverted, black on orange.
+  --cds-layer-selected-inverse: var(--hx-orange);
+  --cds-layer-selected-disabled: rgb(255 107 26 / 0.38);
 
   --cds-field-01: #1e1512;
   --cds-field-02: #271812;

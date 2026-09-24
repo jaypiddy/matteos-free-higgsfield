@@ -58,10 +58,27 @@ export const STATUS_LABEL: Record<JobStatus, string> = {
   canceled: "Canceled",
 };
 
+/**
+ * Bump when the media route's responses change shape. Media is cached as
+ * immutable for a year, so without a new URL a browser keeps serving whatever
+ * it stored first — Safari held on to pre-Range-support responses and refused
+ * to play them.
+ */
+const MEDIA_VERSION = 2;
+
 export function mediaUrl(gen: Generation): string | null {
   // Always prefer our own copy — Higgsfield's URL dies after about a week.
-  if (gen.local_path) return `/api/media/${encodeURIComponent(gen.local_path)}`;
+  if (gen.local_path) return `/api/media/${encodeURIComponent(gen.local_path)}?v=${MEDIA_VERSION}`;
   return gen.remote_url;
+}
+
+/**
+ * A video URL for a thumbnail. Safari with preload="metadata" loads no frame
+ * and paints nothing until asked for a timestamp; `#t=0.001` makes it fetch
+ * and show the first frame. The fragment never reaches the server.
+ */
+export function posterFrameUrl(src: string): string {
+  return `${src}#t=0.001`;
 }
 
 export function formatUsd(usd: number | null | undefined): string {

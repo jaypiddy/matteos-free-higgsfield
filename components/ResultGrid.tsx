@@ -21,6 +21,7 @@ import {
   formatUsd,
   isActive,
   mediaUrl,
+  posterFrameUrl,
   ratioLabel,
   timeAgo,
   type Generation,
@@ -196,7 +197,9 @@ function OutputTile({
   // event never fires and the tile would stay hidden behind its placeholder.
   const markIfLoaded = (el: HTMLImageElement | HTMLVideoElement | null) => {
     if (!el) return;
-    const done = el instanceof HTMLImageElement ? el.complete : el.readyState >= 2;
+    // For video, metadata is enough: Safari with preload="metadata" stops there
+    // and never fires loadeddata, which left the tile hidden behind its placeholder.
+    const done = el instanceof HTMLImageElement ? el.complete : el.readyState >= 1;
     if (done) setReady(true);
   };
 
@@ -205,10 +208,12 @@ function OutputTile({
       {!ready && <SkeletonPlaceholder className="result-tile__placeholder" />}
       {src && isVideo && (
         <video
-          src={src}
+          src={posterFrameUrl(src)}
           muted loop playsInline preload="metadata"
           ref={markIfLoaded}
+          onLoadedMetadata={() => setReady(true)}
           onLoadedData={() => setReady(true)}
+          onError={() => setReady(true)}
           onMouseEnter={(e) => void e.currentTarget.play().catch(() => {})}
           onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
           className="result-tile__media"

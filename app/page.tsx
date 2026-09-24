@@ -15,7 +15,7 @@ import {
 import { ArrowRight, Launch } from "@carbon/icons-react";
 import { useJobs } from "@/components/useJobs";
 import JustifiedRows from "@/components/JustifiedRows";
-import { aspectValue, formatBytes, formatUsd, isActive, mediaUrl, timeAgo, STATUS_LABEL } from "@/lib/shared";
+import { aspectValue, formatBytes, formatUsd, isActive, mediaUrl, posterFrameUrl, timeAgo, STATUS_LABEL } from "@/lib/shared";
 import { CONSOLE, BRAND } from "@/lib/brand";
 
 interface Stats {
@@ -125,7 +125,7 @@ export default function HomePage() {
                     render: (style: React.CSSProperties) => (
                       <NextLink key={job.id} href="/library" title={job.prompt} style={style} className="result-tile">
                         {src && gen.kind === "video" ? (
-                          <video src={src} muted playsInline preload="metadata" className="result-tile__media" data-ready />
+                          <video src={posterFrameUrl(src)} muted playsInline preload="metadata" className="result-tile__media" data-ready />
                         ) : (
                           // eslint-disable-next-line @next/next/no-img-element
                           src && <img src={src} alt={job.prompt} loading="lazy" className="result-tile__media" data-ready />
