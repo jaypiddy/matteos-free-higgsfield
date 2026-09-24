@@ -1,0 +1,2991 @@
+[
+ {
+  "slug": "alibaba/happy-horse/image-to-video",
+  "path": "/alibaba/happy-horse/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.7,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/happy-horse/reference-to-video",
+  "path": "/alibaba/happy-horse/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.7,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_urls",
+   "prompt"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/happy-horse/text-to-video",
+  "path": "/alibaba/happy-horse/text-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.7,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1",
+     "4:3",
+     "3:4"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/happy-horse/v1.1/image-to-video",
+  "path": "/alibaba/happy-horse/v1.1/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.9,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/happy-horse/v1.1/reference-to-video",
+  "path": "/alibaba/happy-horse/v1.1/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.9,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_urls",
+   "prompt"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/happy-horse/v1.1/text-to-video",
+  "path": "/alibaba/happy-horse/v1.1/text-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.9,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1",
+     "4:3",
+     "3:4"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "14",
+     "15"
+    ],
+    "numeric": true
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/qwen-image-3/edit",
+  "path": "/alibaba/qwen-image-3/edit",
+  "output": "image",
+  "ops": [
+   "image_edit"
+  ],
+  "status": "ok",
+  "price": 0.04,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_urls"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "7:9",
+     "9:7",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k",
+     "2k"
+    ],
+    "numeric": false
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/qwen-image-3/text-to-image",
+  "path": "/alibaba/qwen-image-3/text-to-image",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.04,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "7:9",
+     "9:7",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k",
+     "2k"
+    ],
+    "numeric": false
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/wan-3.0/image-to-video",
+  "path": "/alibaba/wan-3.0/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Priced per generated second by resolution: 480p $0.05, 720p $0.10, or 1080p $0.20. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "adaptive"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 16
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/wan-3.0-prime/image-to-video",
+  "path": "/alibaba/wan-3.0-prime/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 1.4,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "adaptive"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 16
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/wan-3.0-prime/reference-to-video",
+  "path": "/alibaba/wan-3.0-prime/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 1.4,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "adaptive"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 16
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/wan-3.0-prime/text-to-video",
+  "path": "/alibaba/wan-3.0-prime/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 1.4,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "adaptive"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 16
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/wan-3.0/reference-to-video",
+  "path": "/alibaba/wan-3.0/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Priced per generated second by resolution: 480p $0.05, 720p $0.10, or 1080p $0.20. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "adaptive"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 16
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "alibaba/wan-3.0/text-to-video",
+  "path": "/alibaba/wan-3.0/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Priced per generated second by resolution: 480p $0.05, 720p $0.10, or 1080p $0.20. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "adaptive"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 16
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.0/image-to-video",
+  "path": "/bytedance/seedance-2.0/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil(generated video seconds × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. Per 1,000 video tokens: 480p/720p/1080p $0.014, 4K $0.008. Rates shown are before any applicable customer discount.",
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p",
+     "4k"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 15
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.0/reference-to-video",
+  "path": "/bytedance/seedance-2.0/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video",
+   "video2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil((input video seconds + generated video seconds) × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. Per 1,000 video tokens: without video input — 480p/720p/1080p $0.014, 4K $0.008; with video input — 480p/720p/1080p $0.0084, 4K $0.0048 (0.6× the standard rate). With video references, both input and generated video durations are billable. Rates shown are before any applicable customer discount.",
+  "required": [
+   "video_urls"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p",
+     "4k"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 15
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.0/text-to-video",
+  "path": "/bytedance/seedance-2.0/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil(generated video seconds × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. Per 1,000 video tokens: 480p/720p/1080p $0.014, 4K $0.008. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p",
+     "4k"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 15
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.5/image-to-video",
+  "path": "/bytedance/seedance-2.5/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil((input video seconds + generated video seconds) × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. At 480p or 720p, each 1,000 video tokens cost $0.0214. Rates shown are before any applicable customer discount.",
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 16
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.5/reference-to-video",
+  "path": "/bytedance/seedance-2.5/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video",
+   "video2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil((input video seconds + generated video seconds) × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. At 480p or 720p, each 1,000 video tokens cost $0.0214 without video input or $0.01284 with video input (0.6× the standard rate). With video references, both input and generated video durations are billable. Rates shown are before any applicable customer discount.",
+  "required": [
+   "audio_urls"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 16
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.5/text-to-video",
+  "path": "/bytedance/seedance-2.5/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil((input video seconds + generated video seconds) × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. At 480p or 720p, each 1,000 video tokens cost $0.0214. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 16
+   },
+   "output_format": {
+    "kind": "enum",
+    "values": [
+     "mp4",
+     "mov"
+    ],
+    "numeric": false
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.5/video-edit",
+  "path": "/bytedance/seedance-2.5/video-edit",
+  "output": "video",
+  "ops": [
+   "video2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil((input video seconds + generated video seconds) × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. Video input is required. At 480p or 720p, each 1,000 video tokens cost $0.01284. Both input and generated video durations are billable. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt",
+   "video_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p"
+    ],
+    "numeric": false
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "bytedance/seedance-2.5/video-extend",
+  "path": "/bytedance/seedance-2.5/video-extend",
+  "output": "video",
+  "ops": [
+   "video2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "Token-metered pricing. Billable video tokens = ceil((input video seconds + generated video seconds) × output width × output height × 24 fps / 1024). Image and audio references do not count as video input. Video input is required. At 480p or 720p, each 1,000 video tokens cost $0.01284. Both input and generated video durations are billable. Rates shown are before any applicable customer discount.",
+  "required": [
+   "prompt",
+   "video_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 4,
+    "max": 16
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "higgsfield-ai/soul/standard",
+  "path": "/higgsfield-ai/soul/standard",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.094,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "9:16",
+     "16:9",
+     "4:3",
+     "3:4",
+     "1:1",
+     "2:3",
+     "3:2"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "batch_size": {
+    "kind": "enum",
+    "values": [
+     "1",
+     "4"
+    ],
+    "numeric": true
+   },
+   "enhance_prompt": {
+    "kind": "type",
+    "type": "boolean"
+   },
+   "style_strength": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "higgsfield-ai/soul/v2/standard",
+  "path": "/higgsfield-ai/soul/v2/standard",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.004,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "9:16",
+     "16:9",
+     "4:3",
+     "3:4",
+     "1:1",
+     "2:3",
+     "3:2"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "batch_size": {
+    "kind": "enum",
+    "values": [
+     "1",
+     "4"
+    ],
+    "numeric": true
+   },
+   "enhance_prompt": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "ideogram/v4.0",
+  "path": "/ideogram/v4.0",
+  "output": "image",
+  "ops": [
+   "image_edit",
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.06,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "1:2",
+     "2:1",
+     "2:3",
+     "3:2",
+     "4:5",
+     "5:4",
+     "9:16",
+     "16:9",
+     "5:8",
+     "8:5",
+     "3:4",
+     "4:3",
+     "9:22",
+     "22:9",
+     "9:23",
+     "23:9",
+     "3:8",
+     "8:3",
+     "5:12",
+     "12:5",
+     "1:3",
+     "3:1"
+    ],
+    "numeric": false
+   },
+   "rendering_speed": {
+    "kind": "enum",
+    "values": [
+     "TURBO",
+     "DEFAULT",
+     "QUALITY"
+    ],
+    "numeric": false
+   }
+  }
+ },
+ {
+  "slug": "kling-video/motion-control/pro",
+  "path": "/kling-video/motion-control/pro",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "error",
+  "price": null,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url",
+   "video_url"
+  ],
+  "params": {}
+ },
+ {
+  "slug": "kling-video/motion-control/std",
+  "path": "/kling-video/motion-control/std",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "error",
+  "price": null,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url",
+   "video_url"
+  ],
+  "params": {}
+ },
+ {
+  "slug": "kling-video/o3/first-last-frame",
+  "path": "/kling-video/o3/first-last-frame",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.56,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "first_frame_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "kling-video/o3/image-reference",
+  "path": "/kling-video/o3/image-reference",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.42,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "kling-video/o3/video-edit",
+  "path": "/kling-video/o3/video-edit",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "error",
+  "price": null,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "video_urls"
+  ],
+  "params": {}
+ },
+ {
+  "slug": "kling-video/o3/video-reference",
+  "path": "/kling-video/o3/video-reference",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.84,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "video_urls"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 10
+   }
+  }
+ },
+ {
+  "slug": "kling-video/omni/first-last-frame",
+  "path": "/kling-video/omni/first-last-frame",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.56,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "first_frame_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   }
+  }
+ },
+ {
+  "slug": "kling-video/omni/image-reference",
+  "path": "/kling-video/omni/image-reference",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.56,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 10
+   }
+  }
+ },
+ {
+  "slug": "kling-video/omni/video-edit",
+  "path": "/kling-video/omni/video-edit",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "error",
+  "price": null,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "video_urls"
+  ],
+  "params": {}
+ },
+ {
+  "slug": "kling-video/omni/video-reference",
+  "path": "/kling-video/omni/video-reference",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.84,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "video_urls"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 10
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v2.5-turbo/pro/image-to-video",
+  "path": "/kling-video/v2.5-turbo/pro/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.35,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v2.5-turbo/pro/text-to-video",
+  "path": "/kling-video/v2.5-turbo/pro/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.35,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v2.5-turbo/standard/image-to-video",
+  "path": "/kling-video/v2.5-turbo/standard/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.21,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v2.6/pro/image-to-video",
+  "path": "/kling-video/v2.6/pro/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.7,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v2.6/pro/text-to-video",
+  "path": "/kling-video/v2.6/pro/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.7,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0/4k/image-to-video",
+  "path": "/kling-video/v3.0/4k/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 2.1,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0/4k/text-to-video",
+  "path": "/kling-video/v3.0/4k/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 2.1,
+  "metered": false,
+  "note": null,
+  "required": [],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0/pro/image-to-video",
+  "path": "/kling-video/v3.0/pro/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.84,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0/pro/text-to-video",
+  "path": "/kling-video/v3.0/pro/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.84,
+  "metered": false,
+  "note": null,
+  "required": [],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0/std/image-to-video",
+  "path": "/kling-video/v3.0/std/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.63,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0/std/text-to-video",
+  "path": "/kling-video/v3.0/std/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.63,
+  "metered": false,
+  "note": null,
+  "required": [],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   },
+   "cfg_scale": {
+    "kind": "type",
+    "type": "number"
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0-turbo/image-to-video",
+  "path": "/kling-video/v3.0-turbo/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.56,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3.0-turbo/text-to-video",
+  "path": "/kling-video/v3.0-turbo/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.56,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 3,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "kling-video/v3/motion-control/pro",
+  "path": "/kling-video/v3/motion-control/pro",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "error",
+  "price": null,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url",
+   "video_url"
+  ],
+  "params": {}
+ },
+ {
+  "slug": "kling-video/v3/motion-control/std",
+  "path": "/kling-video/v3/motion-control/std",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "error",
+  "price": null,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url",
+   "video_url"
+  ],
+  "params": {}
+ },
+ {
+  "slug": "lightricks/ltx-2.5/image-to-video/fast",
+  "path": "/lightricks/ltx-2.5/image-to-video/fast",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.54,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p",
+     "2k",
+     "4k"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "6",
+     "8",
+     "10"
+    ],
+    "numeric": true
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "lightricks/ltx-2.5/image-to-video/pro",
+  "path": "/lightricks/ltx-2.5/image-to-video/pro",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.72,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "6",
+     "8",
+     "10"
+    ],
+    "numeric": true
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "lightricks/ltx-2.5/text-to-video/fast",
+  "path": "/lightricks/ltx-2.5/text-to-video/fast",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.54,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p",
+     "2k",
+     "4k"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "6",
+     "8",
+     "10"
+    ],
+    "numeric": true
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "lightricks/ltx-2.5/text-to-video/pro",
+  "path": "/lightricks/ltx-2.5/text-to-video/pro",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.72,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "6",
+     "8",
+     "10"
+    ],
+    "numeric": true
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "marketing-studio/image",
+  "path": "/marketing-studio/image",
+  "output": "image",
+  "ops": [
+   "image_edit",
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.439,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "auto",
+     "1:1",
+     "3:2",
+     "2:3",
+     "4:3",
+     "3:4",
+     "16:9",
+     "9:16",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k",
+     "2k",
+     "4k"
+    ],
+    "numeric": false
+   },
+   "quality": {
+    "kind": "enum",
+    "values": [
+     "low",
+     "medium",
+     "high"
+    ],
+    "numeric": false
+   },
+   "enhance_prompt": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "minimax/h3/image-to-video",
+  "path": "/minimax/h3/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.65,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "auto",
+     "adaptive",
+     "21:9",
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "2K"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 5,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "minimax/h3/reference-to-video",
+  "path": "/minimax/h3/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video",
+   "video2video"
+  ],
+  "status": "ok",
+  "price": null,
+  "metered": true,
+  "note": "2K output costs $0.13 per generated second. The first five reference images are included; each additional reference image costs $0.08. Rates shown are before any applicable customer discount.",
+  "required": [
+   "video_urls",
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "auto",
+     "adaptive",
+     "21:9",
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "2K"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 5,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "minimax/h3/text-to-video",
+  "path": "/minimax/h3/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.65,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "auto",
+     "adaptive",
+     "21:9",
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "2K"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 5,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "minimax/hailuo-2.3/standard/image-to-video",
+  "path": "/minimax/hailuo-2.3/standard/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.28,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "6",
+     "10"
+    ],
+    "numeric": true
+   },
+   "prompt_optimizer": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "minimax/hailuo-2.3/standard/text-to-video",
+  "path": "/minimax/hailuo-2.3/standard/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.28,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "6",
+     "10"
+    ],
+    "numeric": true
+   },
+   "prompt_optimizer": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "pixverse/v6/image-to-video",
+  "path": "/pixverse/v6/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.255,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "360p",
+     "540p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 1,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "pixverse/v6/text-to-video",
+  "path": "/pixverse/v6/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.255,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "4:3",
+     "1:1",
+     "3:4",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "360p",
+     "540p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 1,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   },
+   "generate_audio": {
+    "kind": "type",
+    "type": "boolean"
+   }
+  }
+ },
+ {
+  "slug": "recraft/v4.1/pro/text-to-image",
+  "path": "/recraft/v4.1/pro/text-to-image",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.21,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:1",
+     "1:2",
+     "3:2",
+     "2:3",
+     "4:3",
+     "3:4",
+     "5:4",
+     "4:5",
+     "6:10",
+     "14:10",
+     "10:14",
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "2k"
+    ],
+    "numeric": false
+   },
+   "output_format": {
+    "kind": "enum",
+    "values": [
+     "jpg",
+     "png",
+     "webp"
+    ],
+    "numeric": false
+   }
+  }
+ },
+ {
+  "slug": "recraft/v4.1/text-to-image",
+  "path": "/recraft/v4.1/text-to-image",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.035,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:1",
+     "1:2",
+     "3:2",
+     "2:3",
+     "4:3",
+     "3:4",
+     "5:4",
+     "4:5",
+     "6:10",
+     "14:10",
+     "10:14",
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k"
+    ],
+    "numeric": false
+   },
+   "output_format": {
+    "kind": "enum",
+    "values": [
+     "jpg",
+     "png",
+     "webp"
+    ],
+    "numeric": false
+   }
+  }
+ },
+ {
+  "slug": "recraft/v4.1/utility/pro/text-to-image",
+  "path": "/recraft/v4.1/utility/pro/text-to-image",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.21,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:1",
+     "1:2",
+     "3:2",
+     "2:3",
+     "4:3",
+     "3:4",
+     "5:4",
+     "4:5",
+     "6:10",
+     "14:10",
+     "10:14",
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "2k"
+    ],
+    "numeric": false
+   },
+   "output_format": {
+    "kind": "enum",
+    "values": [
+     "jpg",
+     "png",
+     "webp"
+    ],
+    "numeric": false
+   }
+  }
+ },
+ {
+  "slug": "recraft/v4.1/utility/text-to-image",
+  "path": "/recraft/v4.1/utility/text-to-image",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.035,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:1",
+     "1:2",
+     "3:2",
+     "2:3",
+     "4:3",
+     "3:4",
+     "5:4",
+     "4:5",
+     "6:10",
+     "14:10",
+     "10:14",
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k"
+    ],
+    "numeric": false
+   },
+   "output_format": {
+    "kind": "enum",
+    "values": [
+     "jpg",
+     "png",
+     "webp"
+    ],
+    "numeric": false
+   }
+  }
+ },
+ {
+  "slug": "soul-id",
+  "path": "/soul-id",
+  "output": "image",
+  "ops": [
+   "character"
+  ],
+  "status": "ok",
+  "price": 2.5,
+  "metered": false,
+  "note": null,
+  "required": [],
+  "params": {}
+ },
+ {
+  "slug": "wan/v2.6/image-to-video",
+  "path": "/wan/v2.6/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.5,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10",
+     "15"
+    ],
+    "numeric": true
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "wan/v2.6/reference-to-video",
+  "path": "/wan/v2.6/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.5,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt",
+   "video_urls"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1",
+     "4:3",
+     "3:4"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10"
+    ],
+    "numeric": true
+   }
+  }
+ },
+ {
+  "slug": "wan/v2.6/text-to-video",
+  "path": "/wan/v2.6/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.5,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "enum",
+    "values": [
+     "5",
+     "10",
+     "15"
+    ],
+    "numeric": true
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "wan/v2.7/image-to-video",
+  "path": "/wan/v2.7/image-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.5,
+  "metered": false,
+  "note": null,
+  "required": [
+   "image_url"
+  ],
+  "params": {
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "wan/v2.7/reference-to-video",
+  "path": "/wan/v2.7/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video"
+  ],
+  "status": "ok",
+  "price": 0.5,
+  "metered": false,
+  "note": null,
+  "required": [
+   "video_urls",
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 10
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "wan/v2.7/text-to-video",
+  "path": "/wan/v2.7/text-to-video",
+  "output": "video",
+  "ops": [
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.5,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "16:9",
+     "9:16",
+     "1:1",
+     "4:3",
+     "3:4"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 2,
+    "max": 15
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ },
+ {
+  "slug": "xai/grok-imagine-image-2.0",
+  "path": "/xai/grok-imagine-image-2.0",
+  "output": "image",
+  "ops": [
+   "image_edit",
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.06,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "auto",
+     "1:1",
+     "1:2",
+     "2:1",
+     "3:2",
+     "2:3",
+     "4:3",
+     "3:4",
+     "16:9",
+     "9:16"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k",
+     "2k"
+    ],
+    "numeric": false
+   },
+   "quality": {
+    "kind": "enum",
+    "values": [
+     "low",
+     "medium"
+    ],
+    "numeric": false
+   }
+  }
+ },
+ {
+  "slug": "xai/grok-imagine-video/v1.5/reference-to-video",
+  "path": "/xai/grok-imagine-video/v1.5/reference-to-video",
+  "output": "video",
+  "ops": [
+   "image2video",
+   "text2video"
+  ],
+  "status": "ok",
+  "price": 0.4,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "auto",
+     "1:1",
+     "16:9",
+     "9:16",
+     "4:3",
+     "3:4",
+     "3:2",
+     "2:3"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "480p",
+     "720p",
+     "1080p"
+    ],
+    "numeric": false
+   },
+   "duration": {
+    "kind": "range",
+    "min": 1,
+    "max": 15
+   }
+  }
+ },
+ {
+  "slug": "z-image/turbo",
+  "path": "/z-image/turbo",
+  "output": "image",
+  "ops": [
+   "text2image"
+  ],
+  "status": "ok",
+  "price": 0.015,
+  "metered": false,
+  "note": null,
+  "required": [
+   "prompt"
+  ],
+  "params": {
+   "aspect_ratio": {
+    "kind": "enum",
+    "values": [
+     "1:1",
+     "2:3",
+     "3:2",
+     "3:4",
+     "4:3",
+     "7:9",
+     "9:7",
+     "9:16",
+     "16:9",
+     "21:9"
+    ],
+    "numeric": false
+   },
+   "resolution": {
+    "kind": "enum",
+    "values": [
+     "1k",
+     "2k"
+    ],
+    "numeric": false
+   },
+   "seed": {
+    "kind": "type",
+    "type": "integer"
+   }
+  }
+ }
+]
