@@ -1,4 +1,4 @@
-// IBM Carbon, g100 (dark) theme.
+// IBM Carbon, g100 (dark) theme, recoloured to the jpholecka.com palette below.
 //
 // Fonts: Carbon's own IBM Plex @font-face loading is off. Everything is set in
 // BD Terminal VF, loaded from the Adobe Fonts kit in layout.tsx, for both
@@ -27,6 +27,126 @@
   @include theme.theme();
 }
 
+// ------------------------------------------------------------ jpholecka.com palette
+//
+// Matched to jpholecka.com: orange and black, nothing else. Orange #FF6B1A on
+// black #121011 is 6.65:1. Secondary text and rules are the site's orange tints
+// (.88 / .8 / .6 / .34). Carbon stacks layers, so those are solid orange-over-
+// black mixes rather than transparencies. Status colours (error, warning,
+// success) keep Carbon's hues — they carry meaning a two-colour palette can't.
+:root {
+  --hx-orange: #ff6b1a;
+  --hx-black: #121011;
+
+  --cds-background: var(--hx-black);
+  --cds-background-hover: rgb(255 107 26 / 0.08);
+  --cds-background-active: rgb(255 107 26 / 0.18);
+  --cds-background-selected: rgb(255 107 26 / 0.12);
+  --cds-background-selected-hover: rgb(255 107 26 / 0.16);
+  --cds-background-inverse: var(--hx-orange);
+  --cds-background-inverse-hover: #ff8540;
+  --cds-background-brand: var(--hx-orange);
+
+  --cds-layer-01: #1e1512;
+  --cds-layer-02: #271812;
+  --cds-layer-03: #311c12;
+  --cds-layer-hover-01: #271812;
+  --cds-layer-hover-02: #311c12;
+  --cds-layer-hover-03: #3a1f12;
+  --cds-layer-active-01: #3a1f12;
+  --cds-layer-active-02: #442212;
+  --cds-layer-active-03: #4d2513;
+  --cds-layer-selected-01: #311c12;
+  --cds-layer-selected-02: #3a1f12;
+  --cds-layer-selected-03: #442212;
+  --cds-layer-selected-hover-01: #3a1f12;
+  --cds-layer-selected-hover-02: #442212;
+  --cds-layer-selected-hover-03: #4d2513;
+  --cds-layer-accent-01: #311c12;
+  --cds-layer-accent-02: #3a1f12;
+  --cds-layer-accent-03: #442212;
+  --cds-layer-accent-hover-01: #3a1f12;
+  --cds-layer-accent-active-01: #442212;
+
+  --cds-field-01: #1e1512;
+  --cds-field-02: #271812;
+  --cds-field-03: #311c12;
+  --cds-field-hover-01: #271812;
+  --cds-field-hover-02: #311c12;
+  --cds-field-hover-03: #3a1f12;
+
+  --cds-text-primary: var(--hx-orange);
+  --cds-text-secondary: rgb(255 107 26 / 0.88);
+  --cds-text-helper: rgb(255 107 26 / 0.8);
+  --cds-text-placeholder: rgb(255 107 26 / 0.6);
+  --cds-text-on-color: var(--hx-black);
+  // Disabled buttons sit on a dark tint, so their text is dim orange, not black.
+  --cds-text-on-color-disabled: rgb(255 107 26 / 0.45);
+  --cds-text-inverse: var(--hx-black);
+  --cds-text-disabled: rgb(255 107 26 / 0.38);
+
+  --cds-link-primary: var(--hx-orange);
+  --cds-link-primary-hover: #ff8a4a;
+  --cds-link-secondary: var(--hx-orange);
+  --cds-link-visited: var(--hx-orange);
+  --cds-link-inverse: var(--hx-black);
+
+  --cds-icon-primary: var(--hx-orange);
+  --cds-icon-secondary: rgb(255 107 26 / 0.8);
+  --cds-icon-on-color: var(--hx-black);
+  --cds-icon-inverse: var(--hx-black);
+  --cds-icon-disabled: rgb(255 107 26 / 0.38);
+  --cds-icon-interactive: var(--hx-orange);
+
+  --cds-border-subtle-00: rgb(255 107 26 / 0.2);
+  --cds-border-subtle-01: rgb(255 107 26 / 0.34);
+  --cds-border-subtle-02: rgb(255 107 26 / 0.34);
+  --cds-border-subtle-03: rgb(255 107 26 / 0.34);
+  --cds-border-subtle-selected-01: rgb(255 107 26 / 0.6);
+  --cds-border-strong-01: rgb(255 107 26 / 0.6);
+  --cds-border-strong-02: rgb(255 107 26 / 0.6);
+  --cds-border-strong-03: rgb(255 107 26 / 0.6);
+  --cds-border-tile-01: rgb(255 107 26 / 0.34);
+  --cds-border-interactive: var(--hx-orange);
+  --cds-border-inverse: var(--hx-orange);
+  --cds-border-disabled: rgb(255 107 26 / 0.2);
+
+  // Focus is a straight inversion, as on the site.
+  --cds-focus: var(--hx-orange);
+  --cds-focus-inset: var(--hx-black);
+  --cds-focus-inverse: var(--hx-black);
+  --cds-interactive: var(--hx-orange);
+  --cds-highlight: rgb(255 107 26 / 0.2);
+  --cds-overlay: rgb(18 16 17 / 0.8);
+  --cds-toggle-off: rgb(255 107 26 / 0.34);
+  --cds-skeleton-background: #1e1512;
+  --cds-skeleton-element: #311c12;
+
+  --cds-button-primary: var(--hx-orange);
+  --cds-button-primary-hover: #ff8540;
+  --cds-button-primary-active: #e55a0e;
+  --cds-button-secondary: #311c12;
+  --cds-button-secondary-hover: #3a1f12;
+  --cds-button-secondary-active: #442212;
+  --cds-button-tertiary: var(--hx-orange);
+  --cds-button-tertiary-hover: var(--hx-orange);
+  --cds-button-tertiary-active: #e55a0e;
+  --cds-button-separator: var(--hx-black);
+  --cds-button-disabled: rgb(255 107 26 / 0.18);
+
+  // Neutral tags become orange-on-tint; coloured tags are reserved for status.
+  --cds-tag-background-gray: #311c12;
+  --cds-tag-color-gray: var(--hx-orange);
+  --cds-tag-hover-gray: #3a1f12;
+  --cds-tag-border-gray: rgb(255 107 26 / 0.34);
+}
+
+::selection {
+  background: var(--hx-orange);
+  color: var(--hx-black);
+}
+
+
 // Replaces the old pastel gradient wash from globals.css.
 body {
   background: var(--cds-background);
@@ -34,7 +154,7 @@ body {
   // globals.css still sets the old body face and weight; Carbon's type tokens
   // are the source of truth now.
   font-family: type.font-family('sans');
-  font-weight: 400;
+  font-weight: 300;
 }
 
 // Carbon's UI Shell header is fixed at the top, 3rem tall. The app scrolls each
@@ -1022,4 +1142,147 @@ $ease: cubic-bezier(0.2, 0, 0.38, 0.9);
 .model-picker__row-sub {
   @include type.type-style('helper-text-01');
   color: var(--cds-text-secondary);
+}
+
+// ============================================================ overrides last
+// Kept at the end so they win over the page styles above at equal specificity.
+
+// Carbon's toggle uses the success green when on; here "on" is the ink colour.
+.cds--toggle__input:checked + .cds--toggle__label .cds--toggle__switch,
+.cds--toggle__switch--checked {
+  background-color: var(--hx-orange);
+}
+
+.cds--toggle__check {
+  fill: var(--hx-black);
+}
+
+// ------------------------------------------------------------ jpholecka.com type
+//
+// bd-terminal-vf has a width axis (100–200). The site sets text wide — 130 —
+// at a light 300, and pushes tracked uppercase labels wider still, to 150,
+// where the face reads most like a terminal. Weight stays on font-weight.
+:root {
+  --vf-wdth: 130;
+  --vf-wdth-wide: 150;
+}
+
+body {
+  font-variation-settings: 'wdth' var(--vf-wdth);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+// Form controls don't inherit font settings by default.
+input,
+textarea,
+select,
+button {
+  font-variation-settings: inherit;
+  font-variant-numeric: inherit;
+}
+
+// Running text and field values: the site's light 300.
+.cds--text-input,
+.cds--text-area,
+.cds--number input[type='number'],
+.cds--search-input,
+.cds--list-box__label,
+.cds--list-box__menu-item__option,
+.cds--inline-notification__subtitle,
+.cds--slider-text-input,
+.section-note,
+.page-tagline,
+.start-tile__body,
+.empty-state__body,
+.home-empty,
+.viewer__prompt,
+.result-tile__prompt,
+.running__prompt,
+.status-tile__text,
+.drop-overlay__body {
+  font-weight: 300;
+}
+
+// Tracked uppercase labels, as .label / .panel-head on the site: 12px, 500,
+// .12em tracking, the wider cut, in the muted tint.
+.cds--label,
+.cds--toggle__label-text,
+.cds--modal-header__label,
+.cds--contained-list__label,
+.cds--slider__range-label,
+.page-overline,
+.viewer__heading,
+.model-trigger__family,
+.stat-label,
+.ledger__row dt,
+.ledger__title,
+.home-section__head .section-title,
+.status-tile__model,
+.running__model,
+.result-tile__meta,
+.result-tile__stamp,
+.model-picker__row-sub,
+.composer__keys {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-variation-settings: 'wdth' var(--vf-wdth-wide);
+}
+
+.cds--label,
+.cds--toggle__label-text,
+.cds--modal-header__label,
+.page-overline,
+.viewer__heading,
+.model-trigger__family,
+.stat-label,
+.ledger__row dt,
+.cds--slider__range-label {
+  color: var(--cds-text-helper);
+}
+
+// Buttons and nav read like the site's .copy control and contact links:
+// uppercase, tracked, wide, weight 500.
+.cds--btn,
+.cds--header__menu-item,
+.cds--content-switcher-btn,
+.cds--tag {
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-variation-settings: 'wdth' var(--vf-wdth-wide);
+}
+
+.cds--btn {
+  font-size: 0.75rem;
+}
+
+.cds--content-switcher-btn {
+  font-size: 0.75rem;
+}
+
+// Carbon's header rules are more specific than a bare class, so match them.
+.cds--header a.cds--header__menu-item {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.cds--header__name {
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variation-settings: 'wdth' var(--vf-wdth-wide);
+}
+
+// The site's secondary button is an outline in the strong rule tint.
+.cds--btn--tertiary {
+  border-color: rgb(255 107 26 / 0.6);
+}
+
+// Prices and figures inside the orange button stay legible on orange.
+.composer__price {
+  background: rgb(18 16 17 / 0.14);
 }

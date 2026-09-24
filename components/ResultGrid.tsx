@@ -232,7 +232,7 @@ function OutputTile({
 
       <span className="result-tile__actions">
         {ratio && <Tag type="high-contrast" size="sm">{ratio}</Tag>}
-        {isVideo && <Tag type="teal" size="sm">video</Tag>}
+        {isVideo && <Tag type="gray" size="sm">video</Tag>}
         <IconButton
           kind="secondary"
           size="sm"
@@ -321,7 +321,7 @@ function Viewer({
           </section>
 
           <div className="viewer__tags">
-            <Tag type="blue" size="sm">{job.est_usd === null ? "metered" : formatUsd(job.est_usd)}</Tag>
+            <Tag type="high-contrast" size="sm">{job.est_usd === null ? "metered" : formatUsd(job.est_usd)}</Tag>
             {gen.bytes ? <Tag type="gray" size="sm">{formatBytes(gen.bytes)}</Tag> : null}
             <Tag type="gray" size="sm">{timeAgo(job.created_at)}</Tag>
           </div>

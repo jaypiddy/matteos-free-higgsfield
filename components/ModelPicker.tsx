@@ -105,7 +105,7 @@ export default function ModelPicker({
                     <span className={`model-picker__row-title${unavailable[m.id] ? " is-unavailable" : ""}`}>
                       {m.name}
                     </span>
-                    <Tag size="sm" type={unavailable[m.id] ? "red" : m.metered ? "purple" : "gray"}>
+                    <Tag size="sm" type={unavailable[m.id] ? "red" : m.metered ? "outline" : "gray"}>
                       {price(m)}
                     </Tag>
                   </span>
