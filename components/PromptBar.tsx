@@ -1,22 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Button, Dropdown, IconButton, InlineLoading, InlineNotification, TextArea } from "@carbon/react";
+import { Add, Close, Music } from "@carbon/icons-react";
 import {
   acceptFor,
   attachmentFallback,
   refKindOf,
-  familiesByKind,
-  modelsInFamily,
   defaultParams,
   getModel,
   maxRefs,
   modelsByKind,
   supportsAttachment,
-  type ModelDef,
 } from "@/lib/models";
 import { formatUsd } from "@/lib/shared";
-import ParamPill from "./ParamPill";
-import Popover from "./Popover";
+import ModelPicker from "./ModelPicker";
+import ParamControl from "./ParamControl";
 
 /**
  * The docked bottom composer.
@@ -28,9 +27,8 @@ import Popover from "./Popover";
  * means — a duration slider is context for the sentence you are about to
  * write, not an afterthought to it.
  *
- * This is where all the time goes, so it is the largest thing on the page:
- * the prompt is set at display size, and Generate is the only gradient
- * surface in the studio.
+ * This is where all the time goes, so it is the largest thing on the page,
+ * and Generate — carrying the live price — is the one primary button in it.
  *
  * Controls are derived from the model registry rather than hardcoded, because
  * Higgsfield's models disagree about nearly everything — Soul takes
@@ -353,122 +351,104 @@ export default function PromptBar({
   // rather than letting the user wonder why the cost jumped.
   const switched = refs.length > 0 && model.imageEndpoint;
 
+
+  const hasBatch = Boolean(model.batchOptions && model.batchOptions.length > 1);
+  const refNoun = refKindOf(model) === "audio" ? "a WAV" : refKindOf(model) === "video" ? "an MP4" : "an image";
+
   return (
-    <div className="glass relative z-40 shrink-0 border-t border-edge-soft shadow-[var(--shade-lg)]">
+    <div className="composer">
       {dragging && (
-        <div className="fade-in pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-white/70 backdrop-blur-md">
-          <div className="rounded-3xl border-2 border-dashed border-accent-line bg-white px-14 py-11 text-center shadow-[var(--shade-lg)]">
-            <p className="display text-lg font-extrabold">Drop to attach</p>
-            <p className="mt-2 text-base text-muted">
+        <div className="drop-overlay" aria-hidden="true">
+          <div className="drop-overlay__panel">
+            <p className="drop-overlay__title">Drop to attach</p>
+            <p className="drop-overlay__body">
               {supportsAttachment(model)
-                ? `${model.name} takes ${refKindOf(model) === "audio" ? "a WAV" : refKindOf(model) === "video" ? "an MP4" : "an image"}`
+                ? `${model.name} takes ${refNoun}`
                 : "Drop an image, MP4 or WAV — the model switches to match"}
             </p>
           </div>
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-[1560px] px-5 sm:px-10">
-        {error && (
-          <div className="flex items-start gap-2.5 border-b border-edge-soft py-3.5 text-sm font-medium text-danger">
-            <span className="mt-px">⚠</span>
-            <span className="flex-1">{error}</span>
-            <button
-              onClick={() => setError(null)}
-              className="press rounded-full px-2 text-faint hover:text-text"
-            >
-              ✕
-            </button>
-          </div>
-        )}
-
-        {switchedNote && (
-          <div className="flex items-start gap-2.5 border-b border-edge-soft py-3.5 text-sm text-warn">
-            <span className="flex-1">{switchedNote}</span>
-            <button
-              onClick={() => setSwitchedNote(null)}
-              className="press rounded-full px-2 text-faint hover:text-text"
-            >
-              ✕
-            </button>
-          </div>
-        )}
-
-        {blocked && (
-          <div className="border-b border-edge-soft py-3.5 text-sm text-warn">
-            {model.name} is not available to your API key — {blocked.toLowerCase()}. Pick another
-            model, or check your plan in Higgsfield Cloud.
-          </div>
-        )}
-
-        {!blocked && metered && (
-          <p className="border-b border-edge-soft py-3.5 text-sm leading-relaxed text-muted">
-            {model.meteredNote ??
-              `${model.name} bills per token rather than per generation, so there is no fixed price up front.`}{" "}
-            Higgsfield reconciles the exact charge after the request runs.
-          </p>
-        )}
-
-        {!blocked && missing.length > 0 && prompt.trim().length > 0 && (
-          <div className="border-b border-edge-soft py-3.5 text-sm text-warn">
-            {model.name} needs {missing.map((d) => d.label.toLowerCase()).join(" and ")} set before
-            it can run.
-          </div>
-        )}
+      <div className="composer__inner">
+        <div className="composer__notices">
+          {error && (
+            <InlineNotification kind="error" lowContrast title="Couldn't do that" subtitle={error} onClose={() => { setError(null); return true; }} />
+          )}
+          {switchedNote && (
+            <InlineNotification kind="warning" lowContrast title="Model switched" subtitle={switchedNote} onClose={() => { setSwitchedNote(null); return true; }} />
+          )}
+          {blocked && (
+            <InlineNotification
+              kind="warning"
+              lowContrast
+              hideCloseButton
+              title={`${model.name} isn't available to your API key`}
+              subtitle={`${blocked}. Pick another model, or check your plan in the Higgsfield console.`}
+            />
+          )}
+          {!blocked && metered && (
+            <InlineNotification
+              kind="info"
+              lowContrast
+              hideCloseButton
+              title="Metered pricing"
+              subtitle={`${model.meteredNote ?? `${model.name} bills per token rather than per generation, so there is no fixed price up front.`} Higgsfield reconciles the exact charge after the request runs.`}
+            />
+          )}
+          {!blocked && missing.length > 0 && prompt.trim().length > 0 && (
+            <InlineNotification
+              kind="warning"
+              lowContrast
+              hideCloseButton
+              title="Needs more settings"
+              subtitle={`${model.name} needs ${missing.map((d) => d.label.toLowerCase()).join(" and ")} set before it can run.`}
+            />
+          )}
+        </div>
 
         {refs.length > 0 && (
-          <div className="flex flex-wrap gap-3 border-b border-edge-soft py-4">
+          <div className="composer__refs">
             {refs.map((r, i) => (
-              <div
-                key={r.url}
-                className="group relative size-16 overflow-hidden rounded-xl border border-edge bg-white shadow-[var(--shade-sm)]"
-              >
+              <div key={r.url} className="ref-thumb">
                 {r.kind === "video" ? (
-                  <video src={r.preview} muted playsInline className="size-full object-cover" />
+                  <video src={r.preview} muted playsInline />
                 ) : r.kind === "audio" ? (
-                  <span className="flex size-full flex-col items-center justify-center gap-1 bg-panel-2 px-1">
-                    <svg viewBox="0 0 24 24" className="size-6 text-accent" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M9 18V6l10-2v12" strokeLinecap="round" strokeLinejoin="round" />
-                      <circle cx="6.5" cy="18" r="2.5" />
-                      <circle cx="16.5" cy="16" r="2.5" />
-                    </svg>
-                    <span className="w-full truncate text-center text-2xs text-faint">{r.name}</span>
+                  <span className="ref-thumb__audio">
+                    <Music size={20} aria-hidden="true" />
+                    <span>{r.name}</span>
                   </span>
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={r.preview} alt={r.name} className="size-full object-cover" />
+                  <img src={r.preview} alt={r.name} />
                 )}
-                <button
+                <IconButton
+                  kind="secondary"
+                  size="sm"
+                  label={`Remove ${r.name}`}
+                  align="top"
+                  className="ref-thumb__remove"
                   onClick={() => setRefs((prev) => prev.filter((_, j) => j !== i))}
-                  className="absolute inset-0 grid place-items-center bg-text/70 text-xs font-bold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                 >
-                  Remove
-                </button>
+                  <Close />
+                </IconButton>
               </div>
             ))}
             {switched && (
-              <p className="self-center pl-1 text-sm text-muted">
+              <p className="composer__hint">
                 Using {model.name}&apos;s image-to-{kind === "video" ? "video" : "image"} endpoint.
               </p>
             )}
           </div>
         )}
 
-        {/* 1 — what it runs on. Model card first, its settings trailing off to
-            the right, all above the prompt they apply to. */}
-        <div className="flex flex-wrap items-stretch gap-2.5 pt-5">
-          <ModelPicker
-            models={available}
-            current={model}
-            onPick={setModelId}
-            unavailable={unavailable}
-            kind={kind}
-          />
-
-          <span className="hidden w-px shrink-0 self-stretch bg-edge-soft sm:block" />
+        {/* 1 — what it runs on: the model, then its settings, above the prompt
+            they apply to. */}
+        <div className="composer__settings">
+          <ModelPicker current={model} onPick={setModelId} unavailable={unavailable} kind={kind} />
 
           {model.params.map((def) => (
-            <ParamPill
+            <ParamControl
               key={def.key}
               def={def}
               value={params[def.key]}
@@ -476,290 +456,83 @@ export default function PromptBar({
             />
           ))}
 
-          {model.batchOptions && model.batchOptions.length > 1 && (
-            <BatchStepper options={model.batchOptions} value={batch} onChange={setBatch} />
+          {hasBatch && (
+            <div className="param param--enum">
+              <Dropdown
+                id="param-batch"
+                size="sm"
+                titleText="Count"
+                label="Count"
+                items={model.batchOptions!}
+                itemToString={(n) => (n === null || n === undefined ? "" : String(n))}
+                selectedItem={batch}
+                onChange={({ selectedItem }) => setBatch(selectedItem ?? 1)}
+              />
+            </div>
           )}
         </div>
 
-        {/* 2 — what you are asking for. Set at display size: it is the one
-            thing on screen you actually author. */}
-        <textarea
+        {/* 2 — what you are asking for. */}
+        <TextArea
           ref={textarea}
+          id={`prompt-${kind}`}
+          labelText="Prompt"
+          hideLabel
           rows={1}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={onKeyDown}
-          placeholder="Describe the scene you imagine"
-          className="mt-5 max-h-[168px] min-h-9 w-full resize-none bg-transparent text-lg leading-9 font-medium text-text outline-none placeholder:font-normal placeholder:text-faint"
+          placeholder={kind === "image" ? "Describe the image you imagine" : "Describe the shot you imagine"}
+          className="composer__prompt"
         />
 
         {/* 3 — sending it. */}
-        <div className="mt-3 flex items-center gap-4 pb-6">
-          <button
-            type="button"
+        <div className="composer__actions">
+          <Button
+            kind="tertiary"
+            size="md"
+            renderIcon={uploading ? undefined : Add}
             disabled={uploading}
             onClick={() => fileInput.current?.click()}
             title={
               supportsAttachment(model)
-                ? "Attach an image — or drop one anywhere, or paste"
-                : `Attach an image (switches away from ${model.name}, which can't use one)`
+                ? `Attach ${refNoun} — or drop one anywhere, or paste`
+                : `Attach a file (switches away from ${model.name}, which can't use one)`
             }
-            className="press flex shrink-0 items-center gap-2.5 rounded-full border border-edge-soft bg-white/80 px-5 py-3 text-sm font-bold text-muted hover:border-accent-line hover:bg-accent-soft hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {uploading ? (
-              <span className="size-4 animate-spin rounded-full border-2 border-edge border-t-accent" />
-            ) : (
-              <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-              </svg>
-            )}
-            <span className="hidden sm:block">Attach</span>
-          </button>
+            {uploading ? <InlineLoading description="Uploading…" /> : "Attach"}
+          </Button>
           <input
             ref={fileInput}
             type="file"
             accept={acceptFor(refKindOf(model))}
             multiple={maxRefs(model) > 1}
-            className="hidden"
+            hidden
             onChange={(e) => attach(e.target.files)}
           />
 
-          <span className="hidden items-center gap-2 text-2xs text-faint lg:flex">
-            <kbd className="rounded-full border border-edge-soft bg-white/80 px-2.5 py-1 font-sans font-semibold">
-              ↵
-            </kbd>
-            <span>send</span>
-            <span className="text-edge">·</span>
-            <kbd className="rounded-full border border-edge-soft bg-white/80 px-2.5 py-1 font-sans font-semibold">
-              ⇧↵
-            </kbd>
-            <span>new line</span>
+          <span className="composer__keys">
+            <kbd>↵</kbd> send <span aria-hidden="true">·</span> <kbd>⇧↵</kbd> new line
           </span>
 
-          {/* The one gradient in the studio, and the biggest control on the
-              page. The price rides inside it in a pill, because the number is
-              what people check before committing. */}
-          <button
-            onClick={generate}
-            disabled={!canSubmit}
-            className={`press ml-auto flex shrink-0 items-center gap-3.5 rounded-full px-7 py-4 text-sm font-extrabold tracking-wide uppercase sm:px-9 ${
-              canSubmit
-                ? "brand-gradient sheen text-accent-ink shadow-[var(--shade-accent)] hover:shadow-[var(--shade-accent-hover)]"
-                : "cursor-not-allowed bg-panel-3 text-faint"
-            }`}
-          >
+          {/* The price rides inside the button, because the number is what
+              people check before committing. */}
+          <Button kind="primary" size="lg" onClick={generate} disabled={!canSubmit} className="composer__generate">
             {busy ? (
-              "Starting…"
+              <InlineLoading description="Starting…" />
             ) : blocked ? (
               "Unavailable"
             ) : (
               <>
                 Generate
-                <span
-                  className={`rounded-full px-3 py-1 font-mono text-xs tracking-normal normal-case ${
-                    canSubmit ? "bg-white/25 text-white" : "bg-white/70 text-faint"
-                  }`}
-                >
+                <span className="composer__price">
                   {estimating ? "···" : metered ? "metered" : formatUsd(estimate)}
                 </span>
               </>
             )}
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
-  );
-}
-
-function ModelPicker({
-  models,
-  current,
-  onPick,
-  unavailable,
-  kind,
-}: {
-  models: ModelDef[];
-  current: ModelDef;
-  onPick: (id: string) => void;
-  unavailable: Record<string, string>;
-  kind: "image" | "video";
-}) {
-  // Two levels: pick a family, then a variant. With ~57 models a flat list is
-  // unusable, and the families map onto how people actually think about them
-  // ("I want Kling" long before "I want Kling 3.0 Pro at 1080p").
-  const [family, setFamily] = useState<string | null>(null);
-  const families = useMemo(() => familiesByKind(kind), [kind]);
-  const currentFamily = current.family ?? current.vendor;
-
-  function price(m: ModelDef) {
-    if (unavailable[m.id]) return "unavailable";
-    if (m.metered) return "metered";
-    return m.fromUsd ? `from ${formatUsd(m.fromUsd)}` : "—";
-  }
-
-  return (
-    <Popover
-      label=""
-      value={`${currentFamily} · ${current.name}`}
-      trigger={(open) => (
-        // The model is the single most consequential choice in the bar, so it
-        // gets a card with its family spelled out above the variant rather
-        // than one more chip in the row.
-        <span
-          className={`press flex min-w-[17rem] items-center gap-3.5 rounded-full border px-3 py-2.5 ${
-            open
-              ? "border-accent-line bg-accent-soft shadow-[var(--shade-sm)]"
-              : "border-edge bg-white/80 hover:border-accent-line hover:bg-accent-soft"
-          }`}
-        >
-          <span className="brand-gradient sheen grid size-10 shrink-0 place-items-center rounded-full text-accent-ink">
-            <span className="display text-base font-bold">
-              {currentFamily.slice(0, 1).toUpperCase()}
-            </span>
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="overline block text-faint">{currentFamily}</span>
-            <span className="mt-0.5 block truncate text-sm font-bold text-text">
-              {current.name}
-            </span>
-          </span>
-          <svg
-            viewBox="0 0 24 24"
-            className={`size-4 shrink-0 text-muted transition-transform duration-200 ${
-              open ? "rotate-180" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-          >
-            <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-      )}
-    >
-      {(close) => (
-        <div className="w-[21rem]">
-          {family === null ? (
-            <>
-              <p className="overline px-3.5 pt-2 pb-2.5 text-faint">
-                {models.length} {kind} models
-              </p>
-              <div className="max-h-[24rem] overflow-y-auto">
-                {families.map((f) => {
-                  const inFamily = modelsInFamily(kind, f);
-                  const cheapest = inFamily.reduce(
-                    (a, b) => ((b.fromUsd || Infinity) < (a.fromUsd || Infinity) ? b : a),
-                    inFamily[0],
-                  );
-                  return (
-                    <button
-                      key={f}
-                      type="button"
-                      onClick={() => setFamily(f)}
-                      className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-left transition-colors duration-150 ${
-                        f === currentFamily ? "bg-accent-soft" : "hover:bg-panel-2"
-                      }`}
-                    >
-                      <span className="min-w-0 flex-1">
-                        <span className="block text-sm font-bold text-text">{f}</span>
-                        <span className="mt-0.5 block text-xs text-muted">
-                          {inFamily.length} {inFamily.length === 1 ? "option" : "options"}
-                          {cheapest?.fromUsd ? ` · from ${formatUsd(cheapest.fromUsd)}` : ""}
-                        </span>
-                      </span>
-                      <span className="shrink-0 text-faint">›</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </>
-          ) : (
-            <>
-              <button
-                type="button"
-                onClick={() => setFamily(null)}
-                className="flex w-full items-center gap-2 rounded-full px-3.5 py-2.5 text-left text-sm text-muted transition-colors duration-150 hover:bg-panel-2 hover:text-text"
-              >
-                <span>‹</span>
-                <span className="font-bold">{family}</span>
-                <span className="text-faint">— all models</span>
-              </button>
-              <div className="max-h-[24rem] overflow-y-auto border-t border-edge-soft pt-1.5">
-                {modelsInFamily(kind, family).map((m) => (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => {
-                      onPick(m.id);
-                      setFamily(null);
-                      close();
-                    }}
-                    className={`w-full rounded-xl px-3.5 py-3 text-left transition-colors duration-150 ${
-                      m.id === current.id ? "bg-accent-soft" : "hover:bg-panel-2"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2.5">
-                      <span
-                        className={`text-sm font-bold ${
-                          unavailable[m.id] ? "text-faint line-through" : "text-text"
-                        }`}
-                      >
-                        {m.name}
-                      </span>
-                      <span className="shrink-0 font-mono text-2xs text-muted">{price(m)}</span>
-                    </div>
-                    <p className="mt-1 text-xs leading-snug text-muted">
-                      {unavailable[m.id] ?? m.blurb}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      )}
-    </Popover>
-  );
-}
-
-function BatchStepper({
-  options,
-  value,
-  onChange,
-}: {
-  options: number[];
-  value: number;
-  onChange: (n: number) => void;
-}) {
-  const index = Math.max(0, options.indexOf(value));
-  const max = options[options.length - 1];
-
-  return (
-    <div className="flex items-stretch overflow-hidden rounded-full border border-edge-soft bg-white/80">
-      <button
-        type="button"
-        onClick={() => onChange(options[Math.max(0, index - 1)])}
-        disabled={index === 0}
-        aria-label="Fewer"
-        className="grid w-10 place-items-center border-r border-edge-soft text-base text-muted transition-colors duration-150 hover:bg-accent-soft hover:text-accent active:bg-panel-3 disabled:text-faint/40 disabled:hover:bg-transparent"
-      >
-        −
-      </button>
-      <span className="grid min-w-16 place-items-center px-1.5">
-        <span className="overline text-faint">count</span>
-        <span className="mt-0.5 font-mono text-sm text-text">
-          {value}/{max}
-        </span>
-      </span>
-      <button
-        type="button"
-        onClick={() => onChange(options[Math.min(options.length - 1, index + 1)])}
-        disabled={index === options.length - 1}
-        aria-label="More"
-        className="grid w-10 place-items-center border-l border-edge-soft text-base text-muted transition-colors duration-150 hover:bg-accent-soft hover:text-accent active:bg-panel-3 disabled:text-faint/40 disabled:hover:bg-transparent"
-      >
-        +
-      </button>
     </div>
   );
 }

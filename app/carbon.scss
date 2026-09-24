@@ -655,3 +655,369 @@ $ease: cubic-bezier(0.2, 0, 0.38, 0.9);
   margin-block-start: spacing.$spacing-02;
   color: var(--cds-text-helper);
 }
+
+// ------------------------------------------------------------ studio
+
+.studio {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.studio__results {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-block: spacing.$spacing-07;
+}
+
+// The docked composer: one layer up from the page, ruled off above.
+.composer {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  max-height: 60dvh;
+  overflow-y: auto;
+  background: var(--cds-layer-01);
+  border-block-start: 1px solid var(--cds-border-subtle-01);
+}
+
+.composer__inner {
+  max-width: 99rem;
+  margin-inline: auto;
+  padding: spacing.$spacing-05 spacing.$spacing-05 spacing.$spacing-05;
+
+  @media (min-width: 42rem) {
+    padding-inline: spacing.$spacing-07;
+  }
+}
+
+.composer__notices {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-03;
+
+  &:not(:empty) {
+    margin-block-end: spacing.$spacing-05;
+  }
+
+  .cds--inline-notification {
+    max-width: none;
+    margin: 0;
+  }
+}
+
+.composer__refs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: spacing.$spacing-03;
+  margin-block-end: spacing.$spacing-05;
+}
+
+.composer__hint {
+  @include type.type-style('helper-text-01');
+  color: var(--cds-text-helper);
+}
+
+.ref-thumb {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  overflow: hidden;
+  background: var(--cds-layer-02);
+  outline: 1px solid var(--cds-border-subtle-01);
+
+  img,
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.ref-thumb__audio {
+  @include type.type-style('helper-text-01');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: spacing.$spacing-02;
+  height: 100%;
+  padding-inline: spacing.$spacing-02;
+  color: var(--cds-text-secondary);
+
+  svg {
+    fill: var(--cds-icon-primary);
+  }
+
+  span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.ref-thumb__remove {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+}
+
+// Model, then its settings: a wrapping strip of labelled controls.
+.composer__settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: spacing.$spacing-05;
+}
+
+.param--enum,
+.param--text {
+  width: 10rem;
+}
+
+.param--seed {
+  display: flex;
+  align-items: flex-end;
+  gap: spacing.$spacing-02;
+  width: 11rem;
+
+  .cds--number {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// Wide enough for Carbon's slider track plus its range labels and number box;
+// the track itself keeps Carbon's own minimum width.
+.param--slider {
+  width: 24rem;
+  max-width: 100%;
+
+  .cds--slider-container {
+    margin: 0;
+  }
+}
+
+// On a phone: the model spans the row and the settings pair up two per row,
+// so the docked composer doesn't crowd out the results.
+@media (max-width: 41.98rem) {
+  .composer__settings {
+    gap: spacing.$spacing-04;
+
+    .model-trigger {
+      flex: 1 1 100%;
+    }
+
+    .param--enum,
+    .param--text,
+    .param--seed,
+    .param--toggle {
+      flex: 1 1 calc(50% - #{spacing.$spacing-04});
+      width: auto;
+      min-width: 0;
+    }
+
+    .param--slider {
+      flex: 1 1 100%;
+      width: auto;
+    }
+  }
+}
+
+.param--toggle {
+  .cds--toggle__switch {
+    margin-block-start: spacing.$spacing-02;
+  }
+}
+
+// The model trigger reads as a field — family label over the variant — but is
+// wider than the rest, because it's the choice everything else depends on.
+.model-trigger {
+  display: flex;
+  align-items: center;
+  gap: spacing.$spacing-04;
+  min-width: 15rem;
+  min-height: 3rem;
+  padding: spacing.$spacing-03 spacing.$spacing-05;
+  border: 0;
+  border-block-end: 1px solid var(--cds-border-strong-01);
+  background: var(--cds-field-02);
+  color: var(--cds-text-primary);
+  text-align: start;
+  cursor: pointer;
+  transition: background-color 70ms $ease;
+
+  &:hover {
+    background: var(--cds-field-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--cds-focus);
+    outline-offset: -2px;
+  }
+}
+
+.model-trigger__text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.model-trigger__family {
+  @include type.type-style('label-01');
+  color: var(--cds-text-secondary);
+}
+
+.model-trigger__name {
+  @include type.type-style('heading-compact-01');
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.model-trigger__icon {
+  flex-shrink: 0;
+  fill: var(--cds-icon-primary);
+}
+
+.composer__prompt {
+  margin-block-start: spacing.$spacing-05;
+
+  .cds--text-area {
+    @include type.type-style('body-02');
+    min-height: 3rem;
+    max-height: 10.5rem;
+    resize: none;
+  }
+}
+
+.composer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: spacing.$spacing-05;
+  margin-block-start: spacing.$spacing-05;
+}
+
+.composer__keys {
+  @include type.type-style('helper-text-01');
+  display: none;
+  color: var(--cds-text-helper);
+
+  kbd {
+    @include type.type-style('code-01');
+    padding: 0 spacing.$spacing-02;
+    border: 1px solid var(--cds-border-subtle-01);
+    color: var(--cds-text-secondary);
+  }
+
+  @media (min-width: 66rem) {
+    display: inline;
+  }
+}
+
+.composer__generate.cds--btn {
+  gap: spacing.$spacing-05;
+  margin-inline-start: auto;
+  padding-inline-end: spacing.$spacing-07;
+}
+
+.composer__price {
+  @include type.type-style('code-02');
+  padding: 0 spacing.$spacing-03;
+  background: rgb(255 255 255 / 0.18);
+}
+
+// Full-page target while a file is dragged over the window.
+.drop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cds-overlay);
+  pointer-events: none;
+}
+
+.drop-overlay__panel {
+  padding: spacing.$spacing-09 spacing.$spacing-10;
+  border: 2px dashed var(--cds-focus);
+  background: var(--cds-layer-01);
+  text-align: center;
+}
+
+.drop-overlay__title {
+  @include type.type-style('heading-04');
+}
+
+.drop-overlay__body {
+  @include type.type-style('body-01');
+  margin-block-start: spacing.$spacing-03;
+  color: var(--cds-text-secondary);
+}
+
+// ------------------------------------------------------------ model picker
+
+.model-picker__body.cds--modal-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: spacing.$spacing-05;
+  margin-block-end: 0;
+  padding-block-end: spacing.$spacing-07;
+
+  @media (min-width: 42rem) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+
+.model-picker__families,
+.model-picker__variants {
+  max-height: 55vh;
+  overflow-y: auto;
+
+  .is-selected {
+    background: var(--cds-layer-selected-01);
+  }
+}
+
+// Each row stacks its title over a detail line.
+.model-picker__row {
+  display: flex;
+  flex-direction: column;
+  gap: spacing.$spacing-02;
+  width: 100%;
+  text-align: start;
+}
+
+.model-picker__variant-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: spacing.$spacing-03;
+
+  .cds--tag {
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
+
+.model-picker__row-title {
+  @include type.type-style('heading-compact-01');
+  color: var(--cds-text-primary);
+
+  &.is-unavailable {
+    color: var(--cds-text-disabled);
+    text-decoration: line-through;
+  }
+}
+
+.model-picker__row-sub {
+  @include type.type-style('helper-text-01');
+  color: var(--cds-text-secondary);
+}
